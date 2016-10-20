@@ -1,9 +1,8 @@
-package IreulTools.Collections;
+package IreulTools.collections;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * Created by tech0039 on 2016/10/19.

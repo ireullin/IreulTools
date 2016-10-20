@@ -1,4 +1,4 @@
-package IreulTools.StringExtension;
+package IreulTools.stringExtension;
 
 import junit.framework.TestCase;
 import org.junit.Assert;

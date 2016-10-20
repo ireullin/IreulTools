@@ -1,4 +1,4 @@
-package IreulTools.Collections;
+package IreulTools.collections;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.function.Consumer;
 
 
 /**

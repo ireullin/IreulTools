@@ -1,7 +1,7 @@
 package IreulTools.Collection;
 
-import IreulTools.Collections.IWrapper;
-import IreulTools.Collections.Wrapper;
+import IreulTools.collections.IWrapper;
+import IreulTools.collections.Wrapper;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;

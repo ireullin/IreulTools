@@ -1,6 +1,5 @@
-package IreulTools.StringExtension;
+package IreulTools.stringExtension;
 
-import IreulTools.JSON.JsonMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

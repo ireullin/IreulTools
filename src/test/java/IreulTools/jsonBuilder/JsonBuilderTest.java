@@ -1,4 +1,4 @@
-package IreulTools.JSON;
+package IreulTools.jsonBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import junit.framework.TestCase;
