@@ -1,0 +1,14 @@
+.history
+/.idea
+/*.iml
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
+/.settings
+bin
+*.sublime-project
+*.csv
+.cache*
+nohup.out
+target
