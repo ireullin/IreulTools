@@ -18,7 +18,7 @@ public class WrapperTest extends TestCase {
     @Test
     public void testSample1() {
 
-        IWrapper sample1 = Wrapper.createNull();
+        IWrapper sample1 = Wrapper.create().setValue(null);
         LOG.info("{}", sample1.toFloat(0.3f));
         Assert.assertEquals(sample1.isNull(), true);
         Assert.assertEquals(sample1.isEmptyOrNull(), true);
@@ -31,8 +31,8 @@ public class WrapperTest extends TestCase {
             sample1.toInt();
             Assert.assertEquals(true,false);
         }
-        catch (NumberFormatException  e){
-            LOG.info("I caught the exception");
+        catch (NullPointerException  e){
+            LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
@@ -43,8 +43,8 @@ public class WrapperTest extends TestCase {
             sample1.toLong();
             Assert.assertEquals(true,false);
         }
-        catch (NumberFormatException  e){
-            LOG.info("I caught the exception");
+        catch (NullPointerException  e){
+            LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
@@ -56,7 +56,7 @@ public class WrapperTest extends TestCase {
             Assert.assertEquals(true,false);
         }
         catch (NullPointerException  e){
-            LOG.info("I caught the exception");
+            LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
@@ -68,7 +68,7 @@ public class WrapperTest extends TestCase {
             Assert.assertEquals(true,false);
         }
         catch (NullPointerException  e){
-            LOG.info("I caught the exception");
+            LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
@@ -81,7 +81,7 @@ public class WrapperTest extends TestCase {
     @Test
     public void testSample2() {
 
-        IWrapper sample2 = Wrapper.create(2.331);
+        IWrapper sample2 = Wrapper.create().setValue(2.331);
         LOG.info("{}", sample2.toFloat());
         LOG.info("{}", sample2.toDouble());
         LOG.info("{}", sample2.toLong(3));

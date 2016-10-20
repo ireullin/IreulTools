@@ -5,22 +5,19 @@ package IreulTools.Collections;
  */
 public class Wrapper implements IWrapper{
 
-    private String value = null;
+    private Object value = null;
 
-
-    private Wrapper(Object v){
-        this.value = v.toString();
-    }
 
     private Wrapper(){
     }
 
-    public static IWrapper create(Object v){
-        return new Wrapper(v);
+    public static Wrapper create(){
+        return new Wrapper();
     }
 
-    public static IWrapper createNull(){
-        return new Wrapper();
+    public IWrapper setValue(Object v){
+        this.value = v;
+        return this;
     }
 
     public String toString() {
@@ -31,11 +28,11 @@ public class Wrapper implements IWrapper{
         if(this.value==null)
             return defaultVal;
         else
-            return this.value;
+            return this.value.toString();
     }
 
     public int toInt() {
-        return Integer.parseInt(value);
+        return Integer.parseInt(value.toString());
     }
 
     public int toInt(int defaultVal) {
@@ -44,7 +41,7 @@ public class Wrapper implements IWrapper{
     }
 
     public float toFloat() {
-        return Float.parseFloat(value);
+        return Float.parseFloat(value.toString());
     }
 
     public float toFloat(float defaultVal) {
@@ -53,7 +50,7 @@ public class Wrapper implements IWrapper{
     }
 
     public long toLong() {
-        return Long.parseLong(value);
+        return Long.parseLong(value.toString());
     }
 
     public long toLong(long defaultVal) {
@@ -62,12 +59,16 @@ public class Wrapper implements IWrapper{
     }
 
     public double toDouble() {
-        return Double.parseDouble(value);
+        return Double.parseDouble(value.toString());
     }
 
     public double toDouble(double defaultVal) {
         try {return toDouble();}
         catch (Exception e){return defaultVal;}
+    }
+
+    public Object value(){
+        return this.value;
     }
 
     public boolean isNull() {

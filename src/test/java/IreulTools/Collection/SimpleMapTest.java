@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,79 +23,82 @@ public class SimpleMapTest extends TestCase {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleMapTest.class);
 
     @Test
-    public void testSample1() {
+    public void testZip() {
 
         try {
             String[] keys = {"key1", "key2", "key3"};
             String[] vals = {"val1", "val2", "val3", "val4"};
 
-            ISimpleMap map = new SimpleMap();
-            map.zip(keys, vals);
+            ISimpleMap map = SimpleMap.create();
+            map.zip(keys, keys);
 
             LOG.info(map.toString());
+            LOG.info("test1 success");
         }
         catch (Exception e){
             LOG.error("test failed", e);
+            Assert.assertEquals(true,false);
         }
-
-    }
-
-    @Test
-    public void testSample2() {
 
         try {
             String[] keys = {"key1", "key2", "key3","key4"};
             String[] vals = {"val1", "val2", "val3"};
 
-            ISimpleMap map = new SimpleMap();
+            ISimpleMap map = SimpleMap.create();
             map.zip(keys, vals);
 
             Assert.assertEquals(true,false);
         }
         catch (Exception e){
-            LOG.info("test success", e);
+            LOG.info("test2 success", e);
         }
-    }
-
-    @Test
-    public void testSample3() {
 
         try {
             String[] keys = {"key1", "key2", "key3","key4","key5"};
             String[] vals = {"val1", "val2", "val3"};
 
-            ISimpleMap map = new SimpleMap();
+            ISimpleMap map = SimpleMap.create();
             map.zip(keys, vals, "empty");
 
             LOG.info(map.toString());
+            LOG.info("test3 success");
         }
         catch (Exception e){
-            LOG.error("test failed", e);
+            LOG.error("test3 failed", e);
         }
+
     }
 
-
+    
     @Test
-    public void testSample3() {
+    public void testPutAndTap() {
 
-        Map<String,String> newMap = new TreeMap<String,String>();
-        newMap.put("key1","new");
-        newMap.put("key2","new");
-        newMap.put("key3","new");
+        ISimpleMap map = SimpleMap.create()
+                .put("key1","1")
+                .put("key2","2")
+                .tap( x -> LOG.info(x)  )
+                .put("key3",3.14)
+                .put("key4","4.32")
+                .put("key4",4)
+                .put("key5", "5.699")
+                .remove("key2");
 
-        Map<String,String> oldMap = new TreeMap<String,String>();
-        oldMap.put("key3","old");
-        oldMap.put("key4","old");
-        oldMap.put("key5","old");
+        LOG.info(map.toString());
 
+        map.foreach((k,v) -> {
+            LOG.info(k);
+            LOG.info("  "+v.toString());
+            LOG.info("  "+v.toDouble(-1));
+            LOG.info("  "+v.toInt(-1));
+        });
 
-        ISimpleMap map = new SimpleMap();
-        map.zip(keys, vals, "empty");
-
+        map.clear();
         LOG.info(map.toString());
     }
 
 
 
 }
+
+
 

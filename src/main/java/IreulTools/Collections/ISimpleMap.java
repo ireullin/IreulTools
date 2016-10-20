@@ -1,16 +1,34 @@
 package IreulTools.Collections;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Created by tech0039 on 2016/10/19.
  */
-public interface ISimpleMap extends Map<String,IWrapper> {
-    public ISimpleMap zip(Object[] keys, Object[] vals);
+public interface ISimpleMap{
+    public ISimpleMap zip(Object[] keys, Object[] vals) throws Exception;
     public ISimpleMap zip(Object[] keys, Object[] vals, Object defaultVal);
-    public ISimpleMap mergeWithOld(Map<? extends String, ? extends IWrapper> m);
-    public ISimpleMap mergeWithNew(Map<? extends String, ? extends IWrapper> m);
-    public IWrapper put(String key, Object value);
-    
+    public ISimpleMap mergeAndStayNew(Map<? extends String, ? extends Object> m);
+    public ISimpleMap put(String key, Object value);
+    public ISimpleMap remove(Object key);
+    public ISimpleMap putAll(Map<? extends String, ? extends Object> m);
+    public ISimpleMap clear();
+
+    public ISimpleMap tap(ITap<String> debugMsg);
+    public ISimpleMap foreach(IForeachMap<String, IWrapper> f);
+
+    public int size();
+    public boolean isEmpty();
+    public boolean containsKey(Object key);
+    public boolean containsValue(Object value);
+
+    public IWrapper get(Object key);
+    public Set<String> keySet();
+    public Collection<Object> values();
+    public Set<Map.Entry<String, Object>> entrySet();
+    public Map<String,Object> toMap();
 
 }

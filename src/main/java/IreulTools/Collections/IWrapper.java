@@ -19,6 +19,8 @@ public interface IWrapper {
     public double toDouble();
     public double toDouble(double defaultVal);
 
+    public Object value();
+
     public boolean isNull();
     public boolean isEmptyOrNull();
 
