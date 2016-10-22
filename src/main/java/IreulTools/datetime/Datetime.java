@@ -1,11 +1,14 @@
 package IreulTools.datetime;
 
+import IreulTools.collections.ITap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * Created by ireullin on 2016/10/22.
@@ -19,13 +22,27 @@ public class Datetime implements IDatetime{
     public Datetime(){
     }
 
+    public Datetime(Date dt){
+        calendar.setTime(dt);
+    }
+
+    public Datetime(long stamp){
+        calendar.setTimeInMillis(stamp);
+    }
+
     public Datetime(int year, int month, int day, int hour, int min, int sec, int millis){
         calendar.set( year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
     }
 
+    public static IDatetime readFrom(String dtstr, String format) throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        Date dt = sdf.parse(dtstr);
+        return new Datetime(dt);
+    }
+
     public static IDatetime  now(){
-        return new ImmutableDatetime();
+        return new Datetime();
     }
 
     @Override
@@ -107,7 +124,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime clone(){
-        return new ImmutableDatetime(year(),month(),day(),hour(),min(),sec(),millis());
+        return new Datetime(year(),month(),day(),hour(),min(),sec(),millis());
     }
 
     @Override
@@ -116,23 +133,71 @@ public class Datetime implements IDatetime{
     }
 
     @Override
-    public IDatetime beginOfDay() {
+    public IDatetime setBeginOfDay() {
         return this.hour(0).min(0).sec(0).millis(0);
     }
 
-    public String strftime(String format) throws Exception{
+    public String toString(String format) throws Exception{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(calendar.getTime());
     }
 
     @Override
+    public IDatetime addOrSubYear(int v) {
+        calendar.add(Calendar.YEAR, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubMonth(int v) {
+        calendar.add(Calendar.MONTH, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubDay(int v) {
+        calendar.add(Calendar.DATE, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubHour(int v) {
+        calendar.add(Calendar.HOUR, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubMin(int v) {
+        calendar.add(Calendar.MINUTE, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubSec(int v) {
+        calendar.add(Calendar.SECOND, v);
+        return this;
+    }
+
+    @Override
+    public IDatetime addOrSubMillis(int v) {
+        calendar.add(Calendar.MILLISECOND, v);
+        return this;
+    }
+
+    @Override
     public String toString() {
         try {
-            return strftime("yyyy-MM-dd HH:mm:ss.SSS");
+            return toString("yyyy-MM-dd HH:mm:ss.SSS");
         }
         catch (Exception e){
             LOG.warn("output date failed",e);
             return "";
         }
+    }
+
+    @Override
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) {
+        debugMsg.put(this);
+        return this;
     }
 }

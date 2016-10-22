@@ -10,8 +10,8 @@ import java.util.Calendar;
 /**
  * Created by ireullin on 2016/10/22.
  */
-public class ImmutableDatetime implements IDatetime{
-
+public class ImmutableDatetime  {//implements IDatetime{
+    /*
     private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetime.class);
 
     public final Calendar calendar = Calendar.getInstance();
@@ -129,4 +129,5 @@ public class ImmutableDatetime implements IDatetime{
             return "";
         }
     }
+    */
 }

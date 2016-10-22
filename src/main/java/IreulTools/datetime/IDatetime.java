@@ -1,18 +1,13 @@
 package IreulTools.datetime;
 
+import IreulTools.collections.ITap;
+
 import java.sql.Timestamp;
 
 /**
  * Created by ireullin on 2016/10/22.
  */
-public interface IDatetime {
-    public int year();
-    public int month();
-    public int day();
-    public int hour();
-    public int min();
-    public int sec();
-    public int millis();
+public interface IDatetime extends IReadOnlyDatetime{
 
     public IDatetime year(int v);
     public IDatetime month(int v);
@@ -21,10 +16,16 @@ public interface IDatetime {
     public IDatetime min(int v);
     public IDatetime sec(int v);
     public IDatetime millis(int v);
-    public IDatetime clone();
-    public IDatetime beginOfDay();
-    public long stamp();
 
-    public String strftime(String format) throws Exception;
-    public String toString();
+    public IDatetime addOrSubYear(int v);
+    public IDatetime addOrSubMonth(int v);
+    public IDatetime addOrSubDay(int v);
+    public IDatetime addOrSubHour(int v);
+    public IDatetime addOrSubMin(int v);
+    public IDatetime addOrSubSec(int v);
+    public IDatetime addOrSubMillis(int v);
+    public IDatetime setBeginOfDay();
+    public IDatetime clone();
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
+    public long stamp();
 }
