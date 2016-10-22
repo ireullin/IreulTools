@@ -1,5 +1,6 @@
 package IreulTools.jsonBuilder;
 
+import IreulTools.collections.ITap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -99,5 +100,11 @@ public class JsonMap implements IJsonMap {
             LOG.warn(msg,e);
             return "";
         }
+    }
+
+    @Override
+    public IJsonMap tap(ITap<String> debugMsg) {
+        debugMsg.put(toString());
+        return this;
     }
 }

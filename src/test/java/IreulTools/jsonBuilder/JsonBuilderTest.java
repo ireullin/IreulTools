@@ -25,28 +25,33 @@ public class JsonBuilderTest extends TestCase{
         IJsonMap node = JsonMap.create()
                 .put("key1", 1)
                 .put("key2", "2")
+                .tap(LOG::info)
                 .put("key3", 3.14159);
 
         IJsonList arr1 = JsonList.create()
                 .put("row1")
                 .put("row2")
+                .tap(LOG::info)
                 .put(node);
 
         IJsonList arr2 = JsonList.create()
                 .merge(arr1)
                 .put("row3")
+                .tap(LOG::info)
                 .put("row4");
 
 
         IJsonList arr3 = JsonList.create()
                 .put("row5")
                 .put("row6")
+                .tap(LOG::info)
                 .put(arr2);
 
         IJsonMap root = JsonMap.create()
                 .put("key4", 4)
                 .put("key5", "5")
                 .put("key6", 6.14159)
+                .tap(LOG::info)
                 .put("arr3", arr3);
 
         return root.toString();

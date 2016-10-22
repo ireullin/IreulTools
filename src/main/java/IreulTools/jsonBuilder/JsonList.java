@@ -1,5 +1,6 @@
 package IreulTools.jsonBuilder;
 
+import IreulTools.collections.ITap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -111,4 +112,9 @@ public class JsonList implements IJsonList{
         }
     }
 
+    @Override
+    public IJsonList tap(ITap<String> debugMsg) {
+        debugMsg.put(toString());
+        return this;
+    }
 }

@@ -1,5 +1,6 @@
 package IreulTools.jsonBuilder;
 
+import IreulTools.collections.ITap;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public interface IJsonList {
     public String toString();
     public ObjectNode toJsonNode();
     public List<Object> toList();
+    public IJsonList tap(ITap<String> debugMsg);
 }
