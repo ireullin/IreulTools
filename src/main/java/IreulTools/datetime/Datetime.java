@@ -1,6 +1,6 @@
 package IreulTools.datetime;
 
-import IreulTools.collections.ITap;
+import IreulTools.functionalProgramming.ITap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
 package IreulTools.jsonBuilder;
 
-import IreulTools.collections.ITap;
+import IreulTools.functionalProgramming.ITap;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.List;

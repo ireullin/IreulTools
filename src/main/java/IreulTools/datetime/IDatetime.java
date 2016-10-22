@@ -1,6 +1,6 @@
 package IreulTools.datetime;
 
-import IreulTools.collections.ITap;
+import IreulTools.functionalProgramming.ITap;
 
 /**
  * Created by ireullin on 2016/10/22.
