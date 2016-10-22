@@ -2,8 +2,6 @@ package IreulTools.datetime;
 
 import IreulTools.collections.ITap;
 
-import java.sql.Timestamp;
-
 /**
  * Created by ireullin on 2016/10/22.
  */
@@ -17,8 +15,6 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime sec(int v);
     public IDatetime millis(int v);
 
-    public IDatetime addOrSubYear(int v);
-    public IDatetime addOrSubMonth(int v);
     public IDatetime addOrSubDay(int v);
     public IDatetime addOrSubHour(int v);
     public IDatetime addOrSubMin(int v);
@@ -27,5 +23,6 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime setBeginOfDay();
     public IDatetime clone();
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
-    public long stamp();
+
+    public IDuration during(IReadOnlyDatetime dt);
 }

@@ -13,5 +13,6 @@ public interface IReadOnlyDatetime {
     public int min();
     public int sec();
     public int millis();
+    public long stamp();
     public String toString(String format) throws Exception;
 }

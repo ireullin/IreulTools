@@ -143,37 +143,23 @@ public class Datetime implements IDatetime{
     }
 
     @Override
-    public IDatetime addOrSubYear(int v) {
-        calendar.add(Calendar.YEAR, v);
-        return this;
-    }
-
-    @Override
-    public IDatetime addOrSubMonth(int v) {
-        calendar.add(Calendar.MONTH, v);
-        return this;
-    }
-
-    @Override
     public IDatetime addOrSubDay(int v) {
-        calendar.add(Calendar.DATE, v);
-        return this;
+        return addOrSubHour(v*24);
     }
 
     @Override
     public IDatetime addOrSubHour(int v) {
-        calendar.add(Calendar.HOUR, v);
-        return this;
+        return addOrSubMin(v*60);
     }
 
     @Override
     public IDatetime addOrSubMin(int v) {
-        calendar.add(Calendar.MINUTE, v);
-        return this;
+        return addOrSubSec(v*60);
     }
 
     @Override
     public IDatetime addOrSubSec(int v) {
+        LOG.debug("addOrSubSec:{}", v);
         calendar.add(Calendar.SECOND, v);
         return this;
     }
@@ -199,5 +185,10 @@ public class Datetime implements IDatetime{
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) {
         debugMsg.put(this);
         return this;
+    }
+
+    @Override
+    public IDuration during(IReadOnlyDatetime dt) {
+        return new Duration(this.stamp()-dt.stamp());
     }
 }
