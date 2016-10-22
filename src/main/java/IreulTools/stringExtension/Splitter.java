@@ -61,7 +61,7 @@ public class Splitter implements ISplitter{
 //                LOG.debug("{} is in",curr);
                 String sub = target.substring(startAt,endAt);
 //                LOG.debug("sub={}", sub);
-                SplitterInfo info = new SplitterInfo(startAt, endAt, index);
+                SplitterInfo info = new SplitterInfo(startAt, endAt-1, index);
                 boolean isCon = pair.isContinue(wrapper.setValue(sub),info);
                 startAt = i+1;
                 index+=1;

@@ -23,7 +23,7 @@ public class SplitterTest extends TestCase {
             String test = "2016-03-18T9:28:13";
             char[] chars = {'-',':','T','Z'};
             Splitter.from(test).putDelim(chars).each( (wrapper,info) -> {
-                LOG.info("{}. {} {}-{}",info.index(),  wrapper.toString(), info.startAt(), info.endAt());
+                LOG.info("{}. {} {}~{}",info.index(),  wrapper.toString(), info.startAt(), info.endAt());
 //                if(info.index()==2) return false;
                 return true;
             });
