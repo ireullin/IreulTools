@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by ireullin on 2016/10/22.
  */
-public class ImmutableDatetimeTest extends TestCase {
+public class DatetimeTest extends TestCase {
 
-     private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetimeTest.class);
+     private static final Logger LOG = LoggerFactory.getLogger(DatetimeTest.class);
 
     @Test
     public void testMain() {
