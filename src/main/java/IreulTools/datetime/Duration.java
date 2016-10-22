@@ -14,15 +14,17 @@ public class Duration implements IDuration {
         public int minutes;
         public int seconds;
         public int milliseconds;
+        public boolean isAfter;
         public Partial(long stamp){
-            days = (int)(stamp / 24*60*60*1000);
-            int dayRem = (int)(stamp % 24*60*60*1000);
-            hours =  dayRem / (60*60*1000);
-            int hoursRem = dayRem % (60*60*1000);
-            minutes = hoursRem / (60*1000);
-            int minRem = hoursRem % (60*1000);
-            seconds = minRem / 1000;
-            milliseconds = minRem % 1000;
+            stamp = Math.abs(stamp);
+            this.days = (int)(stamp / (24*60*60*1000));
+            int dayRem = (int)(stamp % (24*60*60*1000));
+            this.hours =  dayRem / ((60*60*1000));
+            int hoursRem = dayRem % ((60*60*1000));
+            this.minutes = hoursRem / ((60*1000));
+            int minRem = hoursRem % ((60*1000));
+            this.seconds = minRem / 1000;
+            this.milliseconds = minRem % 1000;
         }
     }
 
@@ -96,12 +98,28 @@ public class Duration implements IDuration {
 
     @Override
     public String toString(){
-        return String.format("%d %d:%d:%d.%d",
+        return String.format("%d days, %d hours, %d minutes, %d seconds and %d milliseconds",
                 dayPart(),
                 hourPart(),
                 minPart(),
                 secPart(),
                 millisPart()
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Duration duration = (Duration) o;
+        return duration.stamp()==this.stamp();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (stamp ^ (stamp >>> 32));
+        result = 31 * result + (partial != null ? partial.hashCode() : 0);
+        return result;
     }
 }

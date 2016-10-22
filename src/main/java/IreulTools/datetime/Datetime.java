@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -17,7 +18,7 @@ public class Datetime implements IDatetime{
 
     private static final Logger LOG = LoggerFactory.getLogger(Datetime.class);
 
-    public final Calendar calendar = Calendar.getInstance();
+    public final Calendar calendar = new GregorianCalendar();
 
     public Datetime(){
     }
@@ -86,7 +87,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public int hour() {
-        return calendar.get(Calendar.HOUR);
+        return calendar.get(Calendar.HOUR_OF_DAY);
     }
 
     @Override
@@ -143,30 +144,28 @@ public class Datetime implements IDatetime{
     }
 
     @Override
-    public IDatetime addOrSubDay(int v) {
+    public IDatetime addOrSubDay(double v) {
         return addOrSubHour(v*24);
     }
 
     @Override
-    public IDatetime addOrSubHour(int v) {
+    public IDatetime addOrSubHour(double v) {
         return addOrSubMin(v*60);
     }
 
     @Override
-    public IDatetime addOrSubMin(int v) {
+    public IDatetime addOrSubMin(double v) {
         return addOrSubSec(v*60);
     }
 
     @Override
-    public IDatetime addOrSubSec(int v) {
-        LOG.debug("addOrSubSec:{}", v);
-        calendar.add(Calendar.SECOND, v);
-        return this;
+    public IDatetime addOrSubSec(double v) {
+        return addOrSubMillis(Math.round(v*1000));
     }
 
     @Override
-    public IDatetime addOrSubMillis(int v) {
-        calendar.add(Calendar.MILLISECOND, v);
+    public IDatetime addOrSubMillis(long v) {
+        calendar.add(Calendar.MILLISECOND, (int)v);
         return this;
     }
 
@@ -182,6 +181,20 @@ public class Datetime implements IDatetime{
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Datetime datetime = (Datetime) o;
+        return datetime.stamp()==this.stamp();
+    }
+
+    @Override
+    public int hashCode() {
+        return calendar != null ? calendar.hashCode() : 0;
+    }
+
+    @Override
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) {
         debugMsg.put(this);
         return this;
@@ -189,6 +202,6 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDuration during(IReadOnlyDatetime dt) {
-        return new Duration(this.stamp()-dt.stamp());
+        return new Duration(dt.stamp()-this.stamp());
     }
 }

@@ -1,6 +1,7 @@
 package IreulTools.datetime;
 
 import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,14 +55,14 @@ public class ImmutableDatetimeTest extends TestCase {
         LOG.info("==============================");
 
         IDatetime dtA = Datetime.now();
-        IDatetime dtB = dtA.clone().addOrSubDay(1);
-//                .addOrSubHour(2)
-//                .addOrSubMin(3)
-//                .addOrSubSec(5)
-//                .addOrSubMillis(600);
+        IDatetime dtB = dtA.clone().addOrSubDay(-1)
+                .addOrSubHour(2)
+                .addOrSubMin(3)
+                .addOrSubSec(5)
+                .addOrSubMillis(600);
 
-        IDuration du = dtB.during(dtA);
-        LOG.info("A is {}, B is {}", dtA.toString(), dtB.toString());
+        IDuration du = dtA.during(dtB);
+        LOG.info("A is {} ({}), B is {} ({})", dtA.toString(), dtA.stamp(), dtB.toString(), dtB.stamp());
         LOG.info("duration is {} ({})", du.toString(), du.stamp());
         LOG.info("total {} days", du.totalDay());
         LOG.info("total {} hours", du.totalHour());
@@ -69,17 +70,8 @@ public class ImmutableDatetimeTest extends TestCase {
         LOG.info("total {} seconds", du.totalSec());
         LOG.info("total {} milliseconds", du.totalMillis());
 
+        IDatetime dtC = dtA.addOrSubMillis(du.totalMillis());
+        Assert.assertEquals( dtC.stamp(), dtB.stamp() );
     }
-
-    @Test
-    public void testDetail() {
-        LOG.info("{}", Integer.MAX_VALUE);
-        IDatetime dtA = Datetime.now();
-        IDatetime dtB = dtA.addOrSubSec(1);
-        IDuration du = dtB.during(dtA);
-        LOG.info("A is {}({}), B is {}({})", dtA.toString(), dtA.stamp(), dtB.toString(), dtB.stamp());
-        LOG.info("duration is {} ({})", du.toString(), du.stamp());
-    }
-
 
 }

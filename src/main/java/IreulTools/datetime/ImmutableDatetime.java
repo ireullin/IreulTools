@@ -1,27 +1,35 @@
 package IreulTools.datetime;
 
+import IreulTools.collections.ITap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by ireullin on 2016/10/22.
  */
 public class ImmutableDatetime  {//implements IDatetime{
-    /*
+/*
     private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetime.class);
-
-    public final Calendar calendar = Calendar.getInstance();
+    private final Calendar calendar = new GregorianCalendar();
+    private long stamp;
 
     public ImmutableDatetime(){
+        this.stamp =  calendar.getTimeInMillis();
+    }
+
+    public ImmutableDatetime(long stamp){
+        this.stamp = stamp;
     }
 
     public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis){
         calendar.set( year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
+        this.stamp =  calendar.getTimeInMillis();
     }
 
     public static IDatetime  now(){
@@ -30,104 +38,127 @@ public class ImmutableDatetime  {//implements IDatetime{
 
     @Override
     public int year() {
-        return  calendar.get(Calendar.YEAR);
-    }
-
-    @Override
-    public IDatetime year(int v) {
-//        return new ImmutableDatetime(year(),month(),day(),hour(),min(),sec(),millis());
-        return new ImmutableDatetime(v,month(),day(),hour(),min(),sec(),millis());
-    }
-
-    @Override
-    public IDatetime month(int v) {
-        return new ImmutableDatetime(year(),v,day(),hour(),min(),sec(),millis());
+        return 0;
     }
 
     @Override
     public int month() {
-        return calendar.get(Calendar.MONTH)+1;
+        return 0;
     }
 
     @Override
-    public IDatetime day(int v) {
-        return new ImmutableDatetime(year(),month(),v,hour(),min(),sec(),millis());
+    public IDatetime year(int v) {
+        return null;
     }
 
     @Override
     public int day() {
-        return calendar.get(Calendar.DAY_OF_MONTH);
+        return 0;
     }
 
     @Override
-    public IDatetime hour(int v) {
-        return new ImmutableDatetime(year(),month(),day(),v,min(),sec(),millis());
+    public IDatetime month(int v) {
+        return null;
     }
 
     @Override
     public int hour() {
-        return calendar.get(Calendar.HOUR);
-    }
-
-    @Override
-    public IDatetime min(int v) {
-        return new ImmutableDatetime(year(),month(),day(),hour(),v,sec(),millis());
+        return 0;
     }
 
     @Override
     public int min() {
-        return calendar.get(Calendar.MINUTE);
+        return 0;
+    }
+
+    @Override
+    public IDatetime day(int v) {
+        return null;
     }
 
     @Override
     public int sec() {
-        return calendar.get(Calendar.SECOND);
+        return 0;
     }
 
     @Override
-    public IDatetime sec(int v) {
-        return new ImmutableDatetime(year(),month(),day(),hour(),min(),v,millis());
+    public IDatetime hour(int v) {
+        return null;
     }
 
     @Override
     public int millis() {
-        return calendar.get(Calendar.MILLISECOND);
+        return 0;
+    }
+
+    @Override
+    public IDatetime min(int v) {
+        return null;
+    }
+
+    @Override
+    public long stamp() {
+        return 0;
+    }
+
+    @Override
+    public String toString(String format) throws Exception {
+        return null;
+    }
+
+    @Override
+    public IDatetime sec(int v) {
+        return null;
     }
 
     @Override
     public IDatetime millis(int v) {
-        return new ImmutableDatetime(year(),month(),day(),hour(),min(),sec(),v);
+        return null;
     }
 
     @Override
-    public IDatetime clone(){
-        return new ImmutableDatetime(year(),month(),day(),hour(),min(),sec(),millis());
+    public IDatetime addOrSubDay(double v) {
+        return null;
     }
 
     @Override
-    public long stamp(){
-        return calendar.getTimeInMillis();
+    public IDatetime addOrSubHour(double v) {
+        return null;
     }
 
     @Override
-    public IDatetime beginOfDay() {
-        return new ImmutableDatetime(year(),month(),day(),0,0,0,0);
-    }
-
-    public String strftime(String format) throws Exception{
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(calendar.getTime());
+    public IDatetime addOrSubMin(double v) {
+        return null;
     }
 
     @Override
-    public String toString() {
-        try {
-            return strftime("yyyy-MM-dd HH:mm:ss.SSS");
-        }
-        catch (Exception e){
-            LOG.warn("output date failed",e);
-            return "";
-        }
+    public IDatetime addOrSubSec(double v) {
+        return null;
+    }
+
+    @Override
+    public IDatetime addOrSubMillis(int v) {
+        return null;
+    }
+
+    @Override
+    public IDatetime setBeginOfDay() {
+        return null;
+    }
+
+    @Override
+    public IDatetime clone() {
+        return null;
+    }
+
+    @Override
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) {
+        return null;
+    }
+
+    @Override
+    public IDuration during(IReadOnlyDatetime dt) {
+        return null;
     }
     */
 }

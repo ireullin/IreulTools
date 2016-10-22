@@ -15,11 +15,11 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime sec(int v);
     public IDatetime millis(int v);
 
-    public IDatetime addOrSubDay(int v);
-    public IDatetime addOrSubHour(int v);
-    public IDatetime addOrSubMin(int v);
-    public IDatetime addOrSubSec(int v);
-    public IDatetime addOrSubMillis(int v);
+    public IDatetime addOrSubDay(double v);
+    public IDatetime addOrSubHour(double v);
+    public IDatetime addOrSubMin(double v);
+    public IDatetime addOrSubSec(double v);
+    public IDatetime addOrSubMillis(long v);
     public IDatetime setBeginOfDay();
     public IDatetime clone();
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
