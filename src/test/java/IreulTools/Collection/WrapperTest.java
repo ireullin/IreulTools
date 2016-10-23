@@ -1,4 +1,4 @@
-package IreulTools.Collection;
+package IreulTools.collection;
 
 import IreulTools.collections.IWrapper;
 import IreulTools.collections.Wrapper;
@@ -18,7 +18,7 @@ public class WrapperTest extends TestCase {
     @Test
     public void testSample1() {
 
-        IWrapper sample1 = Wrapper.create().setValue(null);
+        IWrapper sample1 = new Wrapper();
         LOG.info("{}", sample1.toFloat(0.3f));
         Assert.assertEquals(sample1.isNull(), true);
         Assert.assertEquals(sample1.isEmptyOrNull(), true);
@@ -81,7 +81,7 @@ public class WrapperTest extends TestCase {
     @Test
     public void testSample2() {
 
-        IWrapper sample2 = Wrapper.create().setValue(2.331);
+        IWrapper sample2 = new Wrapper(2.331);
         LOG.info("{}", sample2.toFloat());
         LOG.info("{}", sample2.toDouble());
         LOG.info("{}", sample2.toLong(3));

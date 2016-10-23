@@ -1,23 +1,20 @@
 package IreulTools.collections;
 
+import java.util.Objects;
+
 /**
  * Created by tech0039 on 2016/10/19.
  */
 public class Wrapper implements IWrapper{
 
-    private Object value = null;
+    private final Object value;
 
-
-    private Wrapper(){
+    public Wrapper(Object obj){
+        this.value = obj;
     }
 
-    public static Wrapper create(){
-        return new Wrapper();
-    }
-
-    public IWrapper setValue(Object v){
-        this.value = v;
-        return this;
+    public Wrapper(){
+        this.value = null;
     }
 
     public String toString() {
