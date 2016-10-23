@@ -8,10 +8,8 @@ import java.util.List;
 /**
  * Created by ireullin on 2016/10/22.
  */
-public interface ISplitter {
-    public ISplitter putDelim(char[] chars);
-    public ISplitter putDelim(List<Character> chars);
-    public ISplitter putDelim(char c);
-    public void each(IEachPair<IWrapper,ISplitterInfo> pair);
+public interface ISplit {
+    public ISplit with(String s);
+    public void each(IEachPair<IWrapper,Integer> each);
     public List<IWrapper> toList();
 }
