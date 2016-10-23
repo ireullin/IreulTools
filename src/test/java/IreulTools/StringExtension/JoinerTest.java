@@ -27,7 +27,7 @@ public class JoinerTest extends TestCase {
         data2.add("g");
         data2.add("h");
 
-        Joiner joiner = Joiner.create().put(data1).put(data2).put("i").put("j").put(3).put(3.14);
+        IJoin joiner = Join.from(data1).and(data2).and("i").and("j").and(3).and(3.14);
 
         LOG.info(joiner.toString());
         String answer1 = "abcdefghij33.14";
