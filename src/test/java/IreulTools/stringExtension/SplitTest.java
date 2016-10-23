@@ -1,7 +1,5 @@
 package IreulTools.stringExtension;
 
-import IreulTools.collections.IWrapper;
-import IreulTools.collections.Wrapper;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,15 +8,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by ireullin on 2016/10/22.
  */
 
-public class SplitterTest extends TestCase {
+public class SplitTest extends TestCase {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SplitterTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SplitTest.class);
 
     @Test
     public void testMain() {
