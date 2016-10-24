@@ -6,14 +6,36 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by ireullin on 2016/10/22.
  */
 public class DatetimeTest extends TestCase {
 
-     private static final Logger LOG = LoggerFactory.getLogger(DatetimeTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatetimeTest.class);
 
     @Test
+    public void testTimeZone() {
+        try {
+            IDatetime dt = Datetime.now();
+            LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
+
+            IDatetime dtutc = dt.UTC();
+            LOG.debug("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.getTimeZone());
+            LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
+
+            IDatetime dt2 = dt.localTime();
+            LOG.debug("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.getTimeZone());
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+        }
+
+    }
+
+        @Test
     public void testMain() {
 
         IDatetime dt1 = Datetime.now();

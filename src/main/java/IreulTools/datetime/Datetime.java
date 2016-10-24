@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 
 /**
@@ -138,10 +139,7 @@ public class Datetime implements IDatetime{
         return this.hour(0).min(0).sec(0).millis(0);
     }
 
-    public String toString(String format) throws Exception{
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(calendar.getTime());
-    }
+
 
     @Override
     public IDatetime addOrSubDay(double v) {
@@ -180,6 +178,13 @@ public class Datetime implements IDatetime{
         }
     }
 
+
+    public String toString(String format) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(getTimeZone());
+        return sdf.format(calendar.getTime());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -203,5 +208,30 @@ public class Datetime implements IDatetime{
     @Override
     public IDuration during(IReadOnlyDatetime dt) {
         return new Duration(dt.stamp()-this.stamp());
+    }
+
+    @Override
+    public IDatetime setTimeZone(TimeZone tz){
+        calendar.setTimeZone(tz);
+        return this;
+    }
+
+    @Override
+    public TimeZone getTimeZone(){
+        return calendar.getTimeZone();
+    }
+
+    @Override
+    public IDatetime UTC(){
+        Datetime dt = new Datetime(stamp());
+        dt.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dt;
+    }
+
+    @Override
+    public IDatetime localTime(){
+        Datetime dt = new Datetime(stamp());
+        dt.setTimeZone(TimeZone.getDefault());
+        return dt;
     }
 }

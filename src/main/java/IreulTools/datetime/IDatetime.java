@@ -1,6 +1,9 @@
 package IreulTools.datetime;
 
 import IreulTools.functionalProgramming.ITap;
+import com.sun.xml.internal.bind.v2.model.core.ID;
+
+import java.util.TimeZone;
 
 /**
  * Created by ireullin on 2016/10/22.
@@ -23,6 +26,10 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime setBeginOfDay();
     public IDatetime clone();
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
+    public IDatetime setTimeZone(TimeZone tz);
+    public TimeZone getTimeZone();
+    public IDatetime UTC();
+    public IDatetime localTime();
 
     public IDuration during(IReadOnlyDatetime dt);
 }
