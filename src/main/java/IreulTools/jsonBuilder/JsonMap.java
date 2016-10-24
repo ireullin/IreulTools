@@ -1,7 +1,11 @@
 package IreulTools.jsonBuilder;
 
+import IreulTools.collections.IWrapper;
+import IreulTools.collections.Wrapper;
 import IreulTools.functionalProgramming.ITap;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +84,18 @@ public class JsonMap implements IJsonMap {
         return this;
     }
 
+    @Override
+    public IJsonMap put(String key, JsonNode val) {
+        this.map.put(key,val);
+        return this;
+    }
+
+    @Override
+    public IJsonMap put(String key, ArrayNode val) {
+        this.map.put(key,val);
+        return this;
+    }
+
     public Map<String, Object> toMap() {
         return this.map;
     }
@@ -106,5 +122,10 @@ public class JsonMap implements IJsonMap {
     public IJsonMap tap(ITap<String> debugMsg) {
         debugMsg.put(toString());
         return this;
+    }
+
+    @Override
+    public int size() {
+        return this.map.size();
     }
 }

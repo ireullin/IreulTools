@@ -48,10 +48,10 @@ public class Split implements ISplit {
     }
 
     @Override
-    public List<IWrapper> toList(){
-        List<IWrapper> arr = new ArrayList<IWrapper>(20);
+    public List<String> toList(){
+        List<String> arr = new ArrayList<String>(20);
         each((w,i) -> {
-            arr.add(w);
+            arr.add(w.toString());
             return true;
         });
         return arr;

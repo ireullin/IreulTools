@@ -29,8 +29,8 @@ public class SplitTest extends TestCase {
         answer.add("28");
         answer.add("13");
 
-        List<String> result = new ArrayList<String>();
-        splitter.toList().forEach(x -> result.add(x.toString()));
+
+        List<String> result = splitter.toList();
         Assert.assertArrayEquals(result.toArray(), answer.toArray());
 
         splitter.each( (w,i) -> {

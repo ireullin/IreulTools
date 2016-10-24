@@ -11,5 +11,5 @@ import java.util.List;
 public interface ISplit {
     public ISplit with(String s);
     public void each(IEachPair<IWrapper,Integer> each);
-    public List<IWrapper> toList();
+    public List<String> toList();
 }

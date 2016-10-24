@@ -1,6 +1,9 @@
 package IreulTools.jsonBuilder;
 
+import IreulTools.collections.IWrapper;
 import IreulTools.functionalProgramming.ITap;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.List;
@@ -21,8 +24,11 @@ public interface IJsonList {
     public IJsonList put(Map<String,Object> val);
     public IJsonList put(IJsonMap val);
     public IJsonList put(IJsonList val);
+    public IJsonList put(JsonNode val);
+    public IJsonList put(ArrayNode val);
     public String toString();
     public ObjectNode toJsonNode();
     public List<Object> toList();
     public IJsonList tap(ITap<String> debugMsg);
+    public int size();
 }
