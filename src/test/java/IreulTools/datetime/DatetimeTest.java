@@ -35,6 +35,9 @@ public class DatetimeTest extends TestCase {
             IDatetime dt4 = Datetime.readFrom("2016-10-25 16:07:21 UTC", "yyyy-MM-dd HH:mm:ss zzz");
             LOG.debug("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.getTimeZone());
 
+            IDatetime dt5 = Datetime.readFrom("2016-10-25 16:07:21", "yyyy-MM-dd HH:mm:ss");
+            LOG.debug("{} {}", dt5.toString("yyyy-MM-dd HH:mm:ss zzz"), dt5.getTimeZone());
+
         }
         catch (Exception e){
             LOG.error("error", e);
