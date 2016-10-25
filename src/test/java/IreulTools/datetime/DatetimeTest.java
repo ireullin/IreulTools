@@ -22,12 +22,19 @@ public class DatetimeTest extends TestCase {
             IDatetime dt = Datetime.now();
             LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
 
-            IDatetime dtutc = dt.UTC();
+            IDatetime dtutc = dt.toUTC();
             LOG.debug("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.getTimeZone());
             LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
 
-            IDatetime dt2 = dt.localTime();
+            IDatetime dt2 = dt.toLocalTime();
             LOG.debug("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.getTimeZone());
+
+            IDatetime dt3 = Datetime.readFrom("2016-10-25 16:07:21 TST", "yyyy-MM-dd HH:mm:ss zzz");
+            LOG.debug("{} {}", dt3.toString("yyyy-MM-dd HH:mm:ss zzz"), dt3.getTimeZone());
+
+            IDatetime dt4 = Datetime.readFrom("2016-10-25 16:07:21 UTC", "yyyy-MM-dd HH:mm:ss zzz");
+            LOG.debug("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.getTimeZone());
+
         }
         catch (Exception e){
             LOG.error("error", e);

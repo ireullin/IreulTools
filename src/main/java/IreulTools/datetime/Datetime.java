@@ -39,8 +39,11 @@ public class Datetime implements IDatetime{
 
     public static IDatetime readFrom(String dtstr, String format) throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        Date dt = sdf.parse(dtstr);
-        return new Datetime(dt);
+        Date date = sdf.parse(dtstr);
+        TimeZone tz = sdf.getTimeZone();
+        Datetime dt = new Datetime(date);
+        dt.setTimeZone(tz);
+        return dt;
     }
 
     public static IDatetime  now(){
@@ -222,14 +225,14 @@ public class Datetime implements IDatetime{
     }
 
     @Override
-    public IDatetime UTC(){
+    public IDatetime toUTC(){
         Datetime dt = new Datetime(stamp());
         dt.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dt;
     }
 
     @Override
-    public IDatetime localTime(){
+    public IDatetime toLocalTime(){
         Datetime dt = new Datetime(stamp());
         dt.setTimeZone(TimeZone.getDefault());
         return dt;

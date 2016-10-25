@@ -27,9 +27,9 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime clone();
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
     public IDatetime setTimeZone(TimeZone tz);
-    public TimeZone getTimeZone();
-    public IDatetime UTC();
-    public IDatetime localTime();
+
+    public IDatetime toUTC();
+    public IDatetime toLocalTime();
 
     public IDuration during(IReadOnlyDatetime dt);
 }

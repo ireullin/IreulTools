@@ -1,5 +1,7 @@
 package IreulTools.datetime;
 
+import java.util.TimeZone;
+
 /**
  * Created by ireullin on 2016/10/22.
  */
@@ -12,5 +14,6 @@ public interface IReadOnlyDatetime {
     public int sec();
     public int millis();
     public long stamp();
+    public TimeZone getTimeZone();
     public String toString(String format) throws Exception;
 }
