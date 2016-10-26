@@ -19,24 +19,26 @@ public class DatetimeTest extends TestCase {
     @Test
     public void testTimeZone() {
         try {
-            IDatetime dt = Datetime.now();
-            LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
+            IDatetime dt1 = Datetime.now();
+            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.getTimeZone());
 
-            IDatetime dtutc = dt.toUTC();
-            LOG.debug("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.getTimeZone());
-            LOG.debug("{} {}", dt.toString("yyyy-MM-dd HH:mm:ss zzz "), dt.getTimeZone());
+            IDatetime dtutc = dt1.toUTC();
+            LOG.info("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.getTimeZone());
+            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.getTimeZone());
 
-            IDatetime dt2 = dt.toLocalTime();
-            LOG.debug("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.getTimeZone());
+            IDatetime dt2 = dt1.toLocalTime();
+            LOG.info("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.getTimeZone());
+
 
             IDatetime dt3 = Datetime.readFrom("2016-10-25 16:07:21 TST", "yyyy-MM-dd HH:mm:ss zzz");
-            LOG.debug("{} {}", dt3.toString("yyyy-MM-dd HH:mm:ss zzz"), dt3.getTimeZone());
+            LOG.info("{} {}", dt3.toString("yyyy-MM-dd HH:mm:ss zzz"), dt3.getTimeZone());
 
+            //!!!!!!!!!! it will get CEST. I don't know why ????????
             IDatetime dt4 = Datetime.readFrom("2016-10-25 16:07:21 UTC", "yyyy-MM-dd HH:mm:ss zzz");
-            LOG.debug("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.getTimeZone());
+            LOG.info("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.getTimeZone());
 
             IDatetime dt5 = Datetime.readFrom("2016-10-25 16:07:21", "yyyy-MM-dd HH:mm:ss");
-            LOG.debug("{} {}", dt5.toString("yyyy-MM-dd HH:mm:ss zzz"), dt5.getTimeZone());
+            LOG.info("{} {}", dt5.toString("yyyy-MM-dd HH:mm:ss zzz"), dt5.getTimeZone());
 
         }
         catch (Exception e){
