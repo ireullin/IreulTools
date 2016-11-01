@@ -40,7 +40,7 @@ public class Insert implements IInsert{
         head.append(" (");
 
         StringBuilder body = new StringBuilder(100);
-        body.append(" values (");
+        body.append("values (");
 
         for(int i=0; i<cols.size(); i++){
             head.append(cols.get(i));
