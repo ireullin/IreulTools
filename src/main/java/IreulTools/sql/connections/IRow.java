@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public interface IRow {
 
     public ResultSet getResultSet();
-    public boolean next() throws SQLException;
-    public void close() throws SQLException;
+//    public boolean next() throws SQLException;
+//    public void close() throws SQLException;
     public ICell column(String name);
     public ICell index(int i);
 }
