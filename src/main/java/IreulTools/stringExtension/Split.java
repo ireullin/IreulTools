@@ -35,12 +35,12 @@ public class Split implements ISplit {
     }
 
     @Override
-    public void each(IEachPair<IWrapper, Integer> each) {
+    public void each(IEachPair<Integer,IWrapper> each) {
         int index = 0;
         StringTokenizer tk = new StringTokenizer(this.source, this.delims.toString());
         while (tk.hasMoreTokens()){
             String token = tk.nextToken();
-            if(!each.isContinue(new Wrapper(token), index)){
+            if(!each.isContinue(index,new Wrapper(token))){
                 break;
             }
             index += 1;
@@ -50,7 +50,7 @@ public class Split implements ISplit {
     @Override
     public List<String> toList(){
         List<String> arr = new ArrayList<String>(20);
-        each((w,i) -> {
+        each((i,w) -> {
             arr.add(w.toString());
             return true;
         });

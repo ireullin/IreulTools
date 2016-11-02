@@ -33,7 +33,7 @@ public class SplitTest extends TestCase {
         List<String> result = splitter.toList();
         Assert.assertArrayEquals(result.toArray(), answer.toArray());
 
-        splitter.each( (w,i) -> {
+        splitter.each( (i,w) -> {
             LOG.info(w.toString());
             Assert.assertEquals(w.toString(), answer.get(i));
             return i!=2;

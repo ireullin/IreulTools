@@ -28,15 +28,10 @@ public class PostgreSqlConnectionTest  extends TestCase {
             };
             String cmd = Join.from(selects).toString();
 
-            cn.query(cmd, (row,i) -> {
+            cn.query(cmd, (i,row) -> {
                 LOG.info("{}. {}",i, row.column("id").toFloat(0) );
                 return true;
             });
-
-
-
-
-
 
 
         }

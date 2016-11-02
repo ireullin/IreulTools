@@ -40,15 +40,15 @@ public class PostgreSqlConnection implements IConnection {
         this.cn =DriverManager.getConnection(url, user, password);
     }
 
-
-    public IConnection query(String cmd, IEachPair<IRow,Integer> each) throws SQLException{
+    @Override
+    public IConnection query(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd);
         Row row = new Row(pst.executeQuery());
         int i=0;
         try {
             while (row.next()) {
-                if (!each.isContinue(row, i++))
+                if (!each.isContinue(i++,row))
                     break;
             }
         }
@@ -64,7 +64,8 @@ public class PostgreSqlConnection implements IConnection {
     }
 
 
-    public IConnection exec(String cmd, IEachPair<IRow,Integer> each) throws SQLException{
+    @Override
+    public IConnection exec(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd,Statement.RETURN_GENERATED_KEYS);
         pst.executeUpdate();
@@ -73,7 +74,7 @@ public class PostgreSqlConnection implements IConnection {
         int i=0;
         try {
             while (row.next()) {
-                if (!each.isContinue(row, i++))
+                if (!each.isContinue(i++,row))
                     break;
             }
         }

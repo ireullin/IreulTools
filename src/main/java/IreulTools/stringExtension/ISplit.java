@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface ISplit {
     public ISplit with(String s);
-    public void each(IEachPair<IWrapper,Integer> each);
+    public void each(IEachPair<Integer,IWrapper> each);
     public List<String> toList();
 }

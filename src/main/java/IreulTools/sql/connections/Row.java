@@ -14,12 +14,10 @@ public class Row implements IRow {
         this.rs = rs;
     }
 
-    @Override
     public boolean next() throws SQLException{
         return this.rs.next();
     }
 
-    @Override
     public void close() throws SQLException {
         this.rs.close();
     }
