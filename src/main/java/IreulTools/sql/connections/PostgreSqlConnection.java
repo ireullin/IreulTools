@@ -1,5 +1,7 @@
 package IreulTools.sql.connections;
 
+import IreulTools.collections.ISimpleMap;
+import IreulTools.collections.SimpleMap;
 import IreulTools.functionalProgramming.IEachPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,19 +16,45 @@ public class PostgreSqlConnection implements IConnection {
     private static final Logger LOG = LoggerFactory.getLogger(PostgreSqlConnection.class);
 
     private final Connection cn;
+    private final ISimpleMap options;
 
-    public static IConnection create(String host, String initialDB, String user, String password)
-            throws SQLException{
-        return new PostgreSqlConnection(host, initialDB, user, password, 5432);
+    public static IConnection create(ISimpleMap options) throws SQLException{
+        return new PostgreSqlConnection(options);
     }
 
-    public static IConnection create(String host, String initialDB, String user, String password, int port)
-            throws SQLException{
-        return new PostgreSqlConnection(host, initialDB, user, password, port);
-    }
-
-    private PostgreSqlConnection(String host, String initialDB, String user, String password, int port)
+    private PostgreSqlConnection(ISimpleMap options)
         throws SQLException{
+
+
+        if (options.get("host").isEmptyOrNull()) {
+            throw new PostgreSqlConnectionException("Option host required");
+        }
+        String host = options.get("host").toString();
+
+        int port = 5432;
+        try {
+            if (!options.get("port").isEmptyOrNull()) {
+                port = options.get("port").toInt();
+            }
+        }
+        catch (Exception e){
+            throw new PostgreSqlConnectionException("Option port must be integer");
+        }
+
+        if (options.get("initialDB").isEmptyOrNull()) {
+            throw new PostgreSqlConnectionException("Option initialDB required");
+        }
+        String initialDB = options.get("initialDB").toString();
+
+        if (options.get("user").isEmptyOrNull()) {
+            throw new PostgreSqlConnectionException("Option user required");
+        }
+        String user = options.get("user").toString();
+
+        if (options.get("password").isEmptyOrNull()) {
+            throw new PostgreSqlConnectionException("Option password required");
+        }
+        String password = options.get("password").toString();
 
         String url = (new StringBuilder(50))
                 .append("jdbc:postgresql://")
@@ -37,9 +65,18 @@ public class PostgreSqlConnection implements IConnection {
                 .append(initialDB)
                 .toString();
 
-        this.cn =DriverManager.getConnection(url, user, password);
+        this.options = options;
+        this.cn = DriverManager.getConnection(url, user, password);
+
     }
 
+    /**
+     * Only execute SQL syntax and return data.
+     * @param cmd: SQL syntax.
+     * @param each: A call back function which renders index & row.
+     * @return return false if wanna exit
+     * @throws SQLException
+     */
     @Override
     public IConnection query(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
 
@@ -64,6 +101,13 @@ public class PostgreSqlConnection implements IConnection {
     }
 
 
+    /**
+     * Execute SQL syntax and return data with primary key.
+     * @param cmd: SQL syntax.
+     * @param each: A call back function which renders index & row.
+     * @return return false if wanna exit
+     * @throws SQLException
+     */
     @Override
     public IConnection exec(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
 

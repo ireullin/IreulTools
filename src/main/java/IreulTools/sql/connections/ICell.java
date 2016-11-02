@@ -1,5 +1,8 @@
 package IreulTools.sql.connections;
 
+import IreulTools.datetime.IDatetime;
+
+import java.sql.Date;
 import java.sql.SQLException;
 
 /**
@@ -20,4 +23,7 @@ public interface ICell {
 
     public double toDouble() throws SQLException;
     public double toDouble(double defaultVal);
+
+    public IDatetime toDatetime() throws SQLException;
+    public IDatetime toDatetime(IDatetime defaultVal);
 }

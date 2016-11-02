@@ -1,12 +1,21 @@
 package IreulTools.sql.connections;
 
+import IreulTools.datetime.Datetime;
+import IreulTools.datetime.IDatetime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 
 /**
  * Created by tech0039 on 2016/11/1.
  */
 public class ColumnCell implements ICell {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ColumnCell.class);
 
     private final String column;
     private final ResultSet rs;
@@ -85,6 +94,21 @@ public class ColumnCell implements ICell {
     public int toInt(int defaultVal) {
         try{
             return toInt();
+        }
+        catch (SQLException e){
+            return defaultVal;
+        }
+    }
+
+    @Override
+    public IDatetime toDatetime() throws SQLException{
+        return new Datetime( rs.getTimestamp(column) );
+    }
+
+    @Override
+    public IDatetime toDatetime(IDatetime defaultVal) {
+        try{
+            return toDatetime();
         }
         catch (SQLException e){
             return defaultVal;
