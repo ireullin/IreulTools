@@ -144,7 +144,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
             IConnection cn = PostgreSqlConnection.create(options);
             cn.exec(cmd, (i,row) -> {
                 for(int j=0; j<row.size(); j++){
-                    LOG.debug("i:{} j:{} data:{}",i,j,row.index(j));
+                    LOG.info("i:{} j:{} data:{}",i,j,row.index(j));
                 }
                 return true;
             });
