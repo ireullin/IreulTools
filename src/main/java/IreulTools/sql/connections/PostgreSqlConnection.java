@@ -25,12 +25,6 @@ public class PostgreSqlConnection implements IConnection {
     private PostgreSqlConnection(ISimpleMap options)
         throws SQLException{
 
-
-        if (options.get("host").isEmptyOrNull()) {
-            throw new PostgreSqlConnectionException("Option host required");
-        }
-        String host = options.get("host").toString();
-
         int port = 5432;
         try {
             if (!options.get("port").isEmptyOrNull()) {
@@ -41,32 +35,38 @@ public class PostgreSqlConnection implements IConnection {
             throw new PostgreSqlConnectionException("Option port must be integer");
         }
 
-        if (options.get("initialDB").isEmptyOrNull()) {
+
+        if (options.get("host").isEmptyOrNull()) {
+            throw new PostgreSqlConnectionException("Option host required");
+        }
+        if (options.get("db").isEmptyOrNull()) {
             throw new PostgreSqlConnectionException("Option initialDB required");
         }
-        String initialDB = options.get("initialDB").toString();
 
         if (options.get("user").isEmptyOrNull()) {
             throw new PostgreSqlConnectionException("Option user required");
         }
-        String user = options.get("user").toString();
 
         if (options.get("password").isEmptyOrNull()) {
             throw new PostgreSqlConnectionException("Option password required");
         }
-        String password = options.get("password").toString();
+
 
         String url = (new StringBuilder(50))
                 .append("jdbc:postgresql://")
-                .append(host)
+                .append(options.get("host").toString())
                 .append(":")
                 .append(port)
                 .append("/")
-                .append(initialDB)
+                .append(options.get("db").toString())
                 .toString();
 
         this.options = options;
-        this.cn = DriverManager.getConnection(url, user, password);
+        this.cn = DriverManager.getConnection(
+                url,
+                options.get("user").toString(),
+                options.get("password").toString()
+        );
 
     }
 
@@ -139,4 +139,8 @@ public class PostgreSqlConnection implements IConnection {
         this.cn.close();
     }
 
+    @Override
+    public String toString() {
+        return options.toString();
+    }
 }

@@ -31,7 +31,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
     private ISimpleMap generateOptions(){
         ISimpleMap options = SimpleMap.create()
                 .put("host",HOST)
-                .put("initialDB",INIT_DB)
+                .put("db",INIT_DB)
                 .put("user",USER)
                 .put("password",PASSWORD);
 
@@ -55,7 +55,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
             LOG.info(e.getMessage());
         }
 
-        options.put("initialDB", INIT_DB);
+        options.put("db", INIT_DB);
         try(IConnection cn = PostgreSqlConnection.create(options)) {
         }
         catch (Exception e){
@@ -85,6 +85,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
 
         options.put("port", 5432);
         try(IConnection cn = PostgreSqlConnection.create(options)) {
+            LOG.info(cn.toString());
             LOG.info("success");
         }
         catch (Exception e){
