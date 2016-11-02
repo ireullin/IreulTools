@@ -18,7 +18,7 @@ public class JoinerTest extends TestCase {
     private static final Logger LOG = LoggerFactory.getLogger(JoinerTest.class);
 
     @Test
-    public void testMain() {
+    public void testExample1() {
 
         String[] data1 = {"a","b","c","d"};
         List<String> data2 = new ArrayList<String>();

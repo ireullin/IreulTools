@@ -14,7 +14,7 @@ public class Join implements IJoin{
     private static final Logger LOG = LoggerFactory.getLogger(Join.class);
 
     private String symbol = "";
-    private List<String> buff = new ArrayList<String>(100);
+    private List<Object> buff = new ArrayList<Object>(100);
 
     private Join(){
     }
@@ -27,11 +27,11 @@ public class Join implements IJoin{
         return (new Join()).and(o);
     }
 
-    public static IJoin from(String[] arr){
+    public static IJoin from(Object[] arr){
         return (new Join()).and(arr);
     }
 
-    public static IJoin from(List<String> list){
+    public static IJoin from(List<Object> list){
         return (new Join()).and(list);
     }
 
@@ -42,28 +42,21 @@ public class Join implements IJoin{
     }
 
     @Override
-    public IJoin and(String s){
-        this.buff.add(s);
-        return this;
-    }
-
-    @Override
     public IJoin and(Object o){
-        this.buff.add(o.toString());
-        return this;
-    }
-
-    @Override
-    public IJoin and(String[] arr){
-        for(String s: arr){
-            this.buff.add(s);
+        if(o instanceof List){
+            this.buff.addAll((List)o);
+        }
+        else {
+            this.buff.add(o.toString());
         }
         return this;
     }
 
     @Override
-    public IJoin and(List<String> list){
-        this.buff.addAll(list);
+    public IJoin and(Object[] arr){
+        for(Object s: arr){
+            this.buff.add(s);
+        }
         return this;
     }
 

@@ -8,12 +8,19 @@ import java.util.List;
 public interface ISelect {
     public ISelect where(String field, Object val);
     public ISelect where(String syntax);
-
-    public ISelect whereIn(String field, List<? extends Object> val);
-    public ISelect whereIn(String field, Object[] val);
-
-
-//    public ISelect whereIn(String field, List<? extends Integer> vals);
-//    public ISelect whereIn(String field, List<Float> vals);
+//    public ISelect where(ISelect subquery);
+    public ISelect columns(String syntax);
+    public ISelect columns(String[] syntax);
+    public ISelect columns(List<String> syntax);
+    public ISelect count();
+    public ISelect distinct(String column);
+    public ISelect orderByDesc(String column);
+    public ISelect orderByAsc(String column);
+    public ISelect groupWithCount(String syntax);
+    public ISelect groupWithCount(String[] syntax);
+    public ISelect groupWithCount(List<String> syntax);
+//    public ISelect groupWithCount(String syntax, String having);
+//    public ISelect groupWithCount(String[] syntax, String having);
+//    public ISelect groupWithCount(List<String> syntax, String having);
 
 }

@@ -17,9 +17,11 @@ public class Select implements ISelect {
 
     private static final Logger LOG = LoggerFactory.getLogger(Select.class);
 
-    private final List<String> wherePart = new ArrayList<String>(10);
+    private final IAndConditions wherePart = new AndConditions();
     private final List<String> orderPart = new ArrayList<String>(10);
     private final String table;
+    private String columns = "*";
+    private String groupBy = "";
 
 
     public static ISelect from(String table){
@@ -31,79 +33,95 @@ public class Select implements ISelect {
     }
 
     @Override
-    public ISelect whereIn(String field, List<? extends Object> val) {
-        IJoin join = Join.from(val);
-        if(val.get(0) instanceof Integer) {
-            join.with(",");
-            wherePart.add(String.format("{} in ({})", field, join.toString()));
-        }
-        else if(val.get(0) instanceof Long) {
-            join.with(",");
-            wherePart.add(String.format("{} in ({})", field, join.toString()));
-        }
-        else if(val.get(0) instanceof Double) {
-            join.with(",");
-            wherePart.add(String.format("{} in ({})", field, join.toString()));
-        }
-        else if(val.get(0) instanceof Float) {
-            join.with(",");
-            wherePart.add(String.format("{} in ({})", field, join.toString()));
-        }
-        else {
-            join.with("','");
-            wherePart.add(String.format("{} in ('{}')", field, join.toString()));
-        }
-
-        return this;
-    }
-
-    @Override
-    public ISelect whereIn(String field, Object[] vals) {
-        return this;
-    }
-
-    @Override
     public ISelect where(String field, Object val){
-
-        StringBuilder sb = new StringBuilder(20);
-        if(val instanceof Integer) {
-            sb = sb.append(field).append(" = ").append(val);
-        }
-        else if(val instanceof Long) {
-            sb = sb.append(field).append(" = ").append(val);
-        }
-        else if(val instanceof Double) {
-            sb = sb.append(field).append(" = ").append(val);
-        }
-        else if(val instanceof Float) {
-            sb = sb.append(field).append(" = ").append(val);
-        }
-        else {
-            sb = sb.append(field).append(" = '").append(val).append("'");
-        }
-        wherePart.add(sb.toString());
+        wherePart.put(field, val);
         return this;
     }
 
     @Override
     public ISelect where(String syntax){
-        wherePart.add(syntax);
+        wherePart.put(syntax);
         return this;
+    }
+
+    @Override
+    public ISelect columns(String syntax) {
+        this.columns = syntax;
+        return this;
+    }
+
+    @Override
+    public ISelect columns(String[] syntax) {
+        this.columns = Join.from(syntax).with(",").toString();
+        return this;
+    }
+
+    @Override
+    public ISelect count() {
+        this.columns = "count(*)";
+        return this;
+    }
+
+    @Override
+    public ISelect distinct(String column) {
+        this.columns = "distinct "+column;
+        return this;
+    }
+
+    @Override
+    public ISelect columns(List<String> syntax) {
+        this.columns = Join.from(syntax).with(",").toString();
+        return this;
+    }
+
+    @Override
+    public ISelect orderByDesc(String column) {
+        orderPart.add(column+" desc");
+        return this;
+    }
+
+    @Override
+    public ISelect orderByAsc(String column) {
+        orderPart.add(column+" asc");
+        return this;
+    }
+
+    @Override
+    public ISelect groupWithCount(String syntax) {
+        this.columns = syntax+",count(*)";
+        this.groupBy = "group by "+syntax;
+        return this;
+    }
+
+    @Override
+    public ISelect groupWithCount(String[] syntax) {
+        String s = Join.from(syntax).with(",").toString();
+        return groupWithCount(s);
+    }
+
+    @Override
+    public ISelect groupWithCount(List<String> syntax) {
+        String s = Join.from(syntax).with(",").toString();
+        return groupWithCount(s);
     }
 
     @Override
     public String toString() {
 
+        String orderby = "";
+        if(!orderPart.isEmpty()) {
+            orderby = "order by "+Join.from(orderPart).with(",").toString();
+        }
+
         String[] buff ={
-            "select *",
+            "select",columns,
             "from", table,
-            "where", Join.from(wherePart).with(" and ").toString()
+            "where", wherePart.toString(),
+            groupBy,
+            orderby
         };
 
-
-
-
-
-        return Join.from(buff).with(" ").toString();
+        IJoin main = Join.from(buff).with(" ");
+        return main.toString();
     }
 }

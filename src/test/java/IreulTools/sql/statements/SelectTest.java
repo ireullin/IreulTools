@@ -17,14 +17,20 @@ public class SelectTest  extends TestCase {
 
     @Test
     public void testExample1() {
-        String cmd = Select.from("table")
-                .where("a",1)
-                .where("b", "2")
-                .where("c", 3.5)
-                .where("d >= 6")
+        String[] col ={"id", "tranid","tran_date", "member_id", "itno","it_name"};
+        String[] col2 ={"tran_date", "member_id"};
+
+        String cmd = Select.from("transactions")
+//                .columns(col)
+//                .distinct("member_id,itno")
+                .where("tran_date >= '2016-08-01'")
+                .where("cp_name", "礦泉水/包裝水")
+                .groupWithCount(col2)
+//                .orderByAsc("tran_date")
+//                .orderByDesc("itno")
                 .toString();
 
-        LOG.info(cmd);
+        LOG.info("\n"+cmd);
     }
 
     @Test
@@ -40,12 +46,12 @@ public class SelectTest  extends TestCase {
         var2.add(3);
 
 
-        String cmd = Select.from("table")
-                .whereIn("var1",var1)
-                .whereIn("var2",var2)
-                .toString();
-
-        LOG.info(cmd);
+//        String cmd = Select.from("table")
+//                .whereIn("var1",var1)
+//                .whereIn("var2",var2)
+//                .toString();
+//
+//        LOG.info(cmd);
     }
 
 }
