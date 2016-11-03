@@ -8,4 +8,5 @@ import java.util.List;
 public interface IAndConditions {
     public IAndConditions put(String field, Object val);
     public IAndConditions put(String syntax);
+    public String toString(boolean doesIndent);
 }

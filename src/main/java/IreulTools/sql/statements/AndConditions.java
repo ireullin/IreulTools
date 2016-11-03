@@ -27,7 +27,6 @@ public class AndConditions implements IAndConditions {
                 .toString();
     }
 
-
     private String appendStringSyntax(String field, String val){
         return (new StringBuilder(50))
                 .append(field)
@@ -134,6 +133,16 @@ public class AndConditions implements IAndConditions {
 
     @Override
     public String toString() {
-        return Join.from(cons).with(" and ").toString();
+        return toString(false);
+    }
+
+    @Override
+    public String toString(boolean doesIndent) {
+        if(doesIndent) {
+            return Join.from(cons).with("\nand ").toString().trim();
+        }
+        else {
+            return Join.from(cons).with(" and ").toString().trim();
+        }
     }
 }

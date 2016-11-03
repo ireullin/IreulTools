@@ -1,13 +1,16 @@
 package IreulTools.sql.statements;
 
+import IreulTools.functionalProgramming.ITap;
+import IreulTools.jsonBuilder.IJsonMap;
 import IreulTools.stringExtension.IJoin;
 import IreulTools.stringExtension.Join;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -22,6 +25,9 @@ public class Select implements ISelect {
     private final String table;
     private String columns = "*";
     private String groupBy = "";
+    private String having = "";
+    private String limit = "";
+    private String offset = "";
 
 
     public static ISelect from(String table){
@@ -41,6 +47,18 @@ public class Select implements ISelect {
     @Override
     public ISelect where(String syntax){
         wherePart.put(syntax);
+        return this;
+    }
+
+    @Override
+    public ISelect where(String field, ISelect subquery){
+        StringBuilder sb = new StringBuilder(50);
+        sb.append(field)
+            .append(" in (")
+            .append( subquery.toString() )
+            .append(")");
+
+        where(sb.toString());
         return this;
     }
 
@@ -106,22 +124,74 @@ public class Select implements ISelect {
     }
 
     @Override
+    public ISelect groupWithCount(String syntax, String having) {
+        this.having = "having count(*) "+having;
+        return groupWithCount(syntax);
+    }
+
+    @Override
+    public ISelect groupWithCount(String[] syntax, String having) {
+        this.having = "having count(*) "+having;
+        return groupWithCount(syntax);
+    }
+
+    @Override
+    public ISelect groupWithCount(List<String> syntax, String having) {
+        this.having = "having count(*) "+having;
+        return groupWithCount(syntax);
+    }
+
+    @Override
+    public ISelect limit(int i) {
+        this.limit = "limit "+Integer.toString(i);
+        return this;
+    }
+
+    @Override
+    public ISelect offset(int i) {
+        this.offset = " offset "+Integer.toString(i);
+        return this;
+    }
+
+    @Override
+    public ISelect tap(ITap<String> debugMsg) {
+        debugMsg.put(toString());
+        return this;
+    }
+
+    @Override
     public String toString() {
+        return this.toString(false);
+    }
+
+    @Override
+    public String toString(boolean doesIndent) {
+
+        String indent = " ";
+        if(doesIndent){
+            indent = "\n";
+        }
 
         String orderby = "";
         if(!orderPart.isEmpty()) {
             orderby = "order by "+Join.from(orderPart).with(",").toString();
         }
 
-        String[] buff ={
-            "select",columns,
-            "from", table,
-            "where", wherePart.toString(),
-            groupBy,
-            orderby
-        };
+        List<String> raw = Arrays.asList(
+                "select "+columns,
+                "from "+table,
+                "where "+wherePart.toString(doesIndent),
+                groupBy,
+                having,
+                orderby,
+                limit + offset
+        );
 
-        IJoin main = Join.from(buff).with(" ");
-        return main.toString();
+        List<String> buff = raw.stream()
+                .filter(word -> !word.trim().isEmpty())
+                .collect(Collectors.toList());
+
+        IJoin main = Join.from(buff).with(indent);
+        return main.toString().trim();
     }
 }

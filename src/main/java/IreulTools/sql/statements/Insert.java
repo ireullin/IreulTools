@@ -33,6 +33,11 @@ public class Insert implements IInsert{
     }
 
     @Override
+    public String toString(boolean doesIndent) {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         StringBuilder head = new StringBuilder(100);
         head.append("insert into ");

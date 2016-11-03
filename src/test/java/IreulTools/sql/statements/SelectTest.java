@@ -15,44 +15,86 @@ public class SelectTest  extends TestCase {
 
     private static final Logger LOG = LoggerFactory.getLogger(SelectTest.class);
 
+    /**
+     * 測試 where, or, order & columns
+     */
     @Test
     public void testExample1() {
-        String[] col ={"id", "tranid","tran_date", "member_id", "itno","it_name"};
-        String[] col2 ={"tran_date", "member_id"};
 
-        String cmd = Select.from("transactions")
-//                .columns(col)
-//                .distinct("member_id,itno")
+        String[] columns ={"id", "tranid","tran_date", "member_id", "itno","it_name"};
+
+        ISelect query = Select.from("transactions")
+                .columns(columns)
                 .where("tran_date >= '2016-08-01'")
-                .where("cp_name", "礦泉水/包裝水")
-                .groupWithCount(col2)
-//                .orderByAsc("tran_date")
-//                .orderByDesc("itno")
-                .toString();
+                .where("member_id","0006E4EA-7B77-78FE-EBB2-B69F564574B0")
+                .where("(cp_name = '充氣泳池' or cp_name = '濕紙巾')")
+                .orderByAsc("tran_date")
+                .orderByDesc("member_id");
 
-        LOG.info("\n"+cmd);
+
+        LOG.info("\n{}", query.toString(true));
     }
 
+
+    /**
+     * 測試 distinct & subquery
+     */
     @Test
     public void testExample2() {
-        List<String> var1 = new ArrayList<>();
-        var1.add("a");
-        var1.add("b");
-        var1.add("c");
 
-        List<Integer> var2 = new ArrayList<>();
-        var2.add(1);
-        var2.add(2);
-        var2.add(3);
+        ISelect subquery = Select.from("transactions")
+                .distinct("member_id")
+                .where("cp_name","男錶");
+
+        LOG.info("\n{}", subquery.toString(true));
 
 
-//        String cmd = Select.from("table")
-//                .whereIn("var1",var1)
-//                .whereIn("var2",var2)
-//                .toString();
-//
-//        LOG.info(cmd);
+        ISelect mainquery = Select.from("transactions")
+                .where("member_id",subquery);
+
+        LOG.info("\n{}", mainquery.toString(true));
     }
 
+    /**
+     * 測試 group & having
+     */
+    @Test
+    public void testExample3() {
+
+        String[] columns ={"tran_date", "member_id"};
+
+        ISelect query = Select.from("transactions")
+                .where("tran_date >= '2016-08-01'")
+                .where("cp_name", "礦泉水/包裝水")
+                .groupWithCount(columns, "> 2")
+                .orderByAsc("tran_date")
+                .orderByDesc("member_id");
+
+        LOG.info("\n{}", query.toString(true));
+    }
+
+
+    /**
+     * 測試 tap, in, offset & limit
+     */
+    @Test
+    public void testExample4() {
+
+        List<String> c2 = new ArrayList<>();
+        c2.add("紙尿褲/濕紙巾");
+        c2.add("手機周邊/配件");
+        c2.add("紙尿褲/濕紙巾");
+        c2.add("兒童玩具");
+
+        ISelect query = Select.from("transactions")
+                .where("member_id","0006E4EA-7B77-78FE-EBB2-B69F564574B0")
+                .where("c2_name", c2)
+                .orderByDesc("id")
+                .tap(debugmsg -> LOG.info(debugmsg))
+                .limit(10)
+                .offset(4);
+
+        LOG.info("\n{}", query.toString(true));
+    }
 }
 

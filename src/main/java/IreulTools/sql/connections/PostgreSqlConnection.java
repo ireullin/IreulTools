@@ -3,6 +3,7 @@ package IreulTools.sql.connections;
 import IreulTools.collections.ISimpleMap;
 import IreulTools.functionalProgramming.IEachPair;
 import IreulTools.sql.connections.Exceptions.InitialFailedException;
+import IreulTools.sql.statements.ISQLSyntax;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,6 +134,15 @@ public class PostgreSqlConnection implements IConnection {
         return this;
     }
 
+    @Override
+    public IConnection query(ISQLSyntax sql, IEachPair<Integer, IRow> each) throws SQLException {
+        return query(sql.toString(), each);
+    }
+
+    @Override
+    public IConnection exec(ISQLSyntax sql, IEachPair<Integer, IRow> each) throws SQLException {
+        return exec(sql.toString(), each);
+    }
 
     @Override
     public void close() throws Exception {
