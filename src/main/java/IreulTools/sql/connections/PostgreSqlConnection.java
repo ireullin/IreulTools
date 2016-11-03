@@ -1,8 +1,8 @@
 package IreulTools.sql.connections;
 
 import IreulTools.collections.ISimpleMap;
-import IreulTools.collections.SimpleMap;
 import IreulTools.functionalProgramming.IEachPair;
+import IreulTools.sql.connections.Exceptions.InitialFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,23 +32,23 @@ public class PostgreSqlConnection implements IConnection {
             }
         }
         catch (Exception e){
-            throw new PostgreSqlConnectionException("Option port must be integer");
+            throw new InitialFailedException("Option port must be integer");
         }
 
 
         if (options.get("host").isEmptyOrNull()) {
-            throw new PostgreSqlConnectionException("Option host required");
+            throw new InitialFailedException("Option host required");
         }
-        if (options.get("db").isEmptyOrNull()) {
-            throw new PostgreSqlConnectionException("Option initialDB required");
+        if (options.get("dbname").isEmptyOrNull()) {
+            throw new InitialFailedException("Option dbname required");
         }
 
         if (options.get("user").isEmptyOrNull()) {
-            throw new PostgreSqlConnectionException("Option user required");
+            throw new InitialFailedException("Option user required");
         }
 
         if (options.get("password").isEmptyOrNull()) {
-            throw new PostgreSqlConnectionException("Option password required");
+            throw new InitialFailedException("Option password required");
         }
 
 

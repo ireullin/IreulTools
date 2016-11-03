@@ -4,6 +4,7 @@ import IreulTools.collections.ISimpleMap;
 import IreulTools.collections.SimpleMap;
 import IreulTools.datetime.Datetime;
 import IreulTools.datetime.IDatetime;
+import IreulTools.sql.connections.Exceptions.InitialFailedException;
 import IreulTools.sql.statements.IInsert;
 import IreulTools.sql.statements.Insert;
 import IreulTools.stringExtension.Join;
@@ -31,7 +32,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
     private ISimpleMap generateOptions(){
         ISimpleMap options = SimpleMap.create()
                 .put("host",HOST)
-                .put("db",INIT_DB)
+                .put("dbname",INIT_DB)
                 .put("user",USER)
                 .put("password",PASSWORD);
 
@@ -55,7 +56,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
             LOG.info(e.getMessage());
         }
 
-        options.put("db", INIT_DB);
+        options.put("dbname", INIT_DB);
         try(IConnection cn = PostgreSqlConnection.create(options)) {
         }
         catch (Exception e){
