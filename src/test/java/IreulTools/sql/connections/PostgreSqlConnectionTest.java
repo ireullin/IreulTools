@@ -6,7 +6,9 @@ import IreulTools.datetime.Datetime;
 import IreulTools.datetime.IDatetime;
 import IreulTools.sql.connections.Exceptions.InitialFailedException;
 import IreulTools.sql.statements.IInsert;
+import IreulTools.sql.statements.ISelect;
 import IreulTools.sql.statements.Insert;
+import IreulTools.sql.statements.Select;
 import IreulTools.stringExtension.Join;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -25,7 +27,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
     private static final Logger LOG = LoggerFactory.getLogger(PostgreSqlConnectionTest.class);
 
     private final String HOST = "172.17.68.188";
-    private final String INIT_DB = "recommendation_dev";
+    private final String INIT_DB = "recommendation";
     private final String USER = "postgres";
     private final String PASSWORD = "uitox@pgsql2016";
 
@@ -160,5 +162,39 @@ public class PostgreSqlConnectionTest  extends TestCase {
         catch (Exception e){
             LOG.error("Exception", e);
         }
+    }
+
+
+    @Test
+    public void testRealExample1() {
+        ISimpleMap options = SimpleMap.create()
+                .put("host","172.17.68.188")
+                .put("dbname","recommendation")
+                .put("user","postgres")
+                .put("password","uitox@pgsql2016");
+
+        String memberId = "01174075-494E-5A87-4BC5-D50D907687C7";
+
+        ISelect select = Select.from("recommendation_for_users")
+                .where("member_id", memberId)
+//                .where("ws_seq",wsSeq)
+                .orderByDesc("created_at")
+                .limit(1);
+
+        LOG.debug(select.toString(true));
+
+        final StringBuilder recList = new StringBuilder(50);
+        try (IConnection cn = PostgreSqlConnection.create(options)) {
+            cn.query(select.toString(), (i, row) -> {
+                String list = row.column("recommendation_list").toString();
+                LOG.info(list);
+                recList.append(list);
+                return false;
+            });
+        }
+        catch (Exception e) {
+            LOG.error("Exception", e);
+        }
+        LOG.info(recList.toString());
     }
 }

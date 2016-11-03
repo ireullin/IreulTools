@@ -59,7 +59,7 @@ public class PostgreSqlConnection implements IConnection {
                 .append(":")
                 .append(port)
                 .append("/")
-                .append(options.get("db").toString())
+                .append(options.get("dbname").toString())
                 .toString();
 
         this.options = options;
