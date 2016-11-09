@@ -16,9 +16,9 @@ public class WrapperTest extends TestCase {
     private static final Logger LOG = LoggerFactory.getLogger(WrapperTest.class);
 
     @Test
-    public void testSample1() {
+    public void testExample1() {
 
-        IWrapper sample1 = new Wrapper();
+        IWrapper sample1 = Wrapper.ofNull();
         LOG.info("{}", sample1.toFloat(0.3f));
         Assert.assertEquals(sample1.isNull(), true);
         Assert.assertEquals(sample1.isEmptyOrNull(), true);
@@ -79,16 +79,29 @@ public class WrapperTest extends TestCase {
 
 
     @Test
-    public void testSample2() {
+    public void testExample2() {
 
-        IWrapper sample2 = new Wrapper(2.331);
-        LOG.info("{}", sample2.toFloat());
-        LOG.info("{}", sample2.toDouble());
-        LOG.info("{}", sample2.toLong(3));
-        LOG.info("{}", sample2.toInt(2));
-        LOG.info("{}", sample2.toString());
+        IWrapper sample2 = Wrapper.of(2.331);
+        Assert.assertEquals(sample2.toLong(3), 3);
+        Assert.assertEquals(sample2.toInt(2), 2);
+        Assert.assertEquals(sample2.toString(), "2.331");
+
+        try{
+            sample2.toInt();
+            assertEquals(true,false);
+        }
+        catch (Exception e){
+            LOG.info(e.getMessage(),e);
+            assertEquals(true,true);
+        }
 
 
+        double epsilon = 1e9;
+        float fDiff = sample2.toFloat() - 2.311f;
+        Assert.assertEquals(fDiff < epsilon, true );
+
+        double dDiff = sample2.toDouble() - 2.311d;
+        Assert.assertEquals(dDiff < epsilon, true );
     }
 
 }

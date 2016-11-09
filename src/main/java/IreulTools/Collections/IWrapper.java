@@ -10,14 +10,17 @@ public interface IWrapper {
     public int toInt();
     public int toInt(int defaultVal);
 
-    public float toFloat();
+    public float toFloat() throws NullPointerException,NumberFormatException;
     public float toFloat(float defaultVal);
 
-    public long toLong();
+    public long toLong() throws NullPointerException,NumberFormatException;
     public long toLong(long defaultVal);
 
-    public double toDouble();
+    public double toDouble() throws NullPointerException,NumberFormatException;
     public double toDouble(double defaultVal);
+
+    public boolean toBoolean() throws NullPointerException,NumberFormatException;
+    public boolean toBoolean(boolean defaultVal);
 
     public Object value();
 

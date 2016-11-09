@@ -40,7 +40,7 @@ public class Split implements ISplit {
         StringTokenizer tk = new StringTokenizer(this.source, this.delims.toString());
         while (tk.hasMoreTokens()){
             String token = tk.nextToken();
-            if(!each.isContinue(index,new Wrapper(token))){
+            if(!each.isContinue(index,Wrapper.of(token))){
                 break;
             }
             index += 1;

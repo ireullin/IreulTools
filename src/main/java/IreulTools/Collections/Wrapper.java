@@ -9,12 +9,16 @@ public class Wrapper implements IWrapper{
 
     private final Object value;
 
-    public Wrapper(Object obj){
+    private Wrapper(Object obj){
         this.value = obj;
     }
 
-    public Wrapper(){
-        this.value = null;
+    public static IWrapper of(Object obj){
+        return new Wrapper(obj);
+    }
+
+    public static IWrapper ofNull(){
+        return new Wrapper(null);
     }
 
     public String toString() {
@@ -28,7 +32,7 @@ public class Wrapper implements IWrapper{
             return this.value.toString();
     }
 
-    public int toInt() {
+    public int toInt() throws NullPointerException,NumberFormatException{
         return Integer.parseInt(value.toString());
     }
 
@@ -37,7 +41,7 @@ public class Wrapper implements IWrapper{
         catch (Exception e){return defaultVal;}
     }
 
-    public float toFloat() {
+    public float toFloat() throws NullPointerException,NumberFormatException{
         return Float.parseFloat(value.toString());
     }
 
@@ -46,7 +50,7 @@ public class Wrapper implements IWrapper{
         catch (Exception e){return defaultVal;}
     }
 
-    public long toLong() {
+    public long toLong() throws NullPointerException,NumberFormatException{
         return Long.parseLong(value.toString());
     }
 
@@ -55,12 +59,23 @@ public class Wrapper implements IWrapper{
         catch (Exception e){return defaultVal;}
     }
 
-    public double toDouble() {
+    public double toDouble() throws NullPointerException,NumberFormatException{
         return Double.parseDouble(value.toString());
     }
 
     public double toDouble(double defaultVal) {
         try {return toDouble();}
+        catch (Exception e){return defaultVal;}
+    }
+
+    @Override
+    public boolean toBoolean() throws NullPointerException,NumberFormatException{
+        return Boolean.parseBoolean(value.toString());
+    }
+
+    @Override
+    public boolean toBoolean(boolean defaultVal) {
+        try {return toBoolean();}
         catch (Exception e){return defaultVal;}
     }
 
