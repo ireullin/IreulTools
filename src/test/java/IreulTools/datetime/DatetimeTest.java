@@ -47,31 +47,41 @@ public class DatetimeTest extends TestCase {
 
     }
 
-        @Test
+    @Test
     public void testMain() {
 
         IDatetime dt1 = Datetime.now();
         IDatetime dt2 = dt1.year(2012).month(2).day(15).hour(6).min(10).sec(5).millis(200);
         LOG.info(dt1.toString());
         LOG.info(dt2.toString());
-        LOG.info("==============================");
+        assertEquals(dt1.toString(), dt2.toString());
 
         IDatetime dt3 = new Datetime(2015,8,4,9,10,15,000);
+
         LOG.info(dt3.toString());
+        assertEquals("2015-08-04 09:10:15.000", dt3.toString());
+
         LOG.info(dt3.setBeginOfDay().toString());
+        assertEquals("2015-08-04 00:00:00.000", dt3.toString());
+
         LOG.info("{}", dt3.stamp());
+        assertEquals(1438617600000l, dt3.stamp());
+
         LOG.info("==============================");
 
         IDatetime dt4 = new Datetime(dt3.stamp());
         LOG.info(dt4.toString());
+        assertEquals("2015-08-04 00:00:00.000", dt4.toString());
         LOG.info("==============================");
 
         try {
             IDatetime dt5 = Datetime.readFrom("20140825130972321", "yyyyMMddHHmmssSSS");
             LOG.info(dt5.toString());
+            assertEquals("2014-08-25 13:10:12.321",dt5.toString());
         }
         catch (Exception e){
             LOG.error("format error",e);
+            assertEquals(false,true);
         }
         LOG.info("==============================");
 
@@ -82,6 +92,9 @@ public class DatetimeTest extends TestCase {
                 .addOrSubMin(-120).tap( dt -> LOG.info("sub {} minutes is {}", 120 ,  dt.toString()) )
                 .addOrSubSec(5).tap( dt -> LOG.info("add {} second is {}", 5 ,  dt.toString()) )
                 .addOrSubMillis(1500).tap( dt -> LOG.info("add {} millisecond is {}", 1500 ,  dt.toString()) );
+
+            LOG.info(dt6.toString());
+            assertEquals("2010-03-01 09:00:06.500",dt6.toString());
         }
         catch (Exception e){
             LOG.error("format error",e);
@@ -105,7 +118,7 @@ public class DatetimeTest extends TestCase {
         LOG.info("total {} milliseconds", du.totalMillis());
 
         IDatetime dtC = dtA.addOrSubMillis(du.totalMillis());
-        Assert.assertEquals( dtC.stamp(), dtB.stamp() );
+        assertEquals( dtC.stamp(), dtB.stamp() );
     }
 
 }
