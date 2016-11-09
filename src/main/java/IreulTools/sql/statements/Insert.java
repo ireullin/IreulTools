@@ -16,7 +16,7 @@ public class Insert implements IInsert{
     private final String table;
     private final List<String> cols = new ArrayList<String>(50);
     private final List<String> vals = new ArrayList<String>(50);
-
+    private  String returning = null;
 
     public static IInsert into(String table){
         return new Insert(table);
@@ -29,6 +29,12 @@ public class Insert implements IInsert{
     public IInsert put(Object column, Object value){
         cols.add(column.toString());
         vals.add(value.toString());
+        return this;
+    }
+
+    @Override
+    public IInsert returning(Object column) {
+        returning = column.toString();
         return this;
     }
 
@@ -65,6 +71,11 @@ public class Insert implements IInsert{
         body.append(") ");
 
         head.append(body);
+
+        if(returning!=null){
+            head.append(" returning ").append(returning);
+        }
+
         return head.toString();
     }
 }

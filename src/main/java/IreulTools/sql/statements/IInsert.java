@@ -5,4 +5,5 @@ package IreulTools.sql.statements;
  */
 public interface IInsert extends ISQLSyntax{
     public IInsert put(Object column, Object value);
+    public IInsert returning(Object column);
 }
