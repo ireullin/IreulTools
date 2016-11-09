@@ -1,18 +1,14 @@
 package IreulTools.jsonBuilder;
 
-import IreulTools.collections.IWrapper;
-import IreulTools.collections.Wrapper;
 import IreulTools.functionalProgramming.ITap;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 /**
  * Created by tech0039 on 2016/10/19.
@@ -50,68 +46,16 @@ public class JsonList implements IJsonList{
     }
 
     @Override
-    public IJsonList put(String val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(int val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(long val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(float val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(double val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(List<Object> val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(Map<String, Object> val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(IJsonMap val) {
-        this.list.add(val.toMap());
-        return this;
-    }
-
-    @Override
-    public IJsonList put(IJsonList val) {
-        this.list.add(val.toList());
-        return this;
-    }
-
-    @Override
-    public IJsonList put(JsonNode val) {
-        this.list.add(val);
-        return this;
-    }
-
-    @Override
-    public IJsonList put(ArrayNode val) {
-        this.list.add(val);
+    public IJsonList put(Object val) {
+        if(val instanceof IJsonList){
+            this.list.add(((IJsonList)val).toList());
+        }
+        else if(val instanceof IJsonMap) {
+            this.list.add(((IJsonMap)val).toMap());
+        }
+        else{
+            this.list.add(val);
+        }
         return this;
     }
 

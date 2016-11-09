@@ -15,17 +15,7 @@ import java.util.Map;
 public interface IJsonList {
     public IJsonList merge(List<Object> val);
     public IJsonList merge(IJsonList val);
-    public IJsonList put(String val);
-    public IJsonList put(int val);
-    public IJsonList put(long val);
-    public IJsonList put(float val);
-    public IJsonList put(double val);
-    public IJsonList put(List<Object> val);
-    public IJsonList put(Map<String,Object> val);
-    public IJsonList put(IJsonMap val);
-    public IJsonList put(IJsonList val);
-    public IJsonList put(JsonNode val);
-    public IJsonList put(ArrayNode val);
+    public IJsonList put(Object val);
     public String toString();
     public ObjectNode toJsonNode();
     public List<Object> toList();

@@ -39,60 +39,16 @@ public class JsonMap implements IJsonMap {
         return new JsonMap(map);
     }
 
-    public IJsonMap put(String key, String val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, int val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, long val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, float val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, double val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, List<Object> val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, Map<String,Object> val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    public IJsonMap put(String key, IJsonMap val) {
-        this.map.put(key,val.toMap());
-        return this;
-    }
-
-    public IJsonMap put(String key, IJsonList val) {
-        this.map.put(key,val.toList());
-        return this;
-    }
-
-    @Override
-    public IJsonMap put(String key, JsonNode val) {
-        this.map.put(key,val);
-        return this;
-    }
-
-    @Override
-    public IJsonMap put(String key, ArrayNode val) {
-        this.map.put(key,val);
+    public IJsonMap put(String key, Object val) {
+        if(val instanceof IJsonList){
+            this.map.put(key, ((IJsonList)val).toList());
+        }
+        else if(val instanceof IJsonMap) {
+            this.map.put(key, ((IJsonMap)val).toMap());
+        }
+        else{
+            this.map.put(key,val);
+        }
         return this;
     }
 
