@@ -33,6 +33,8 @@ public class SelectTest  extends TestCase {
 
 
         LOG.info("\n{}", query.toString(true));
+        String answer = "select id,tranid,tran_date,member_id,itno,it_name from transactions where tran_date >= '2016-08-01' and member_id = '0006E4EA-7B77-78FE-EBB2-B69F564574B0' and (cp_name = '充氣泳池' or cp_name = '濕紙巾') order by tran_date asc,member_id desc";
+        assertEquals(answer, query.toString());
     }
 
 
@@ -47,12 +49,13 @@ public class SelectTest  extends TestCase {
                 .where("cp_name","男錶");
 
         LOG.info("\n{}", subquery.toString(true));
-
+        assertEquals(subquery.toString(), "select distinct member_id from transactions where cp_name = '男錶'");
 
         ISelect mainquery = Select.from("transactions")
                 .where("member_id",subquery);
 
         LOG.info("\n{}", mainquery.toString(true));
+        assertEquals(mainquery.toString(), "select * from transactions where member_id in (select distinct member_id from transactions where cp_name = '男錶')");
     }
 
     /**
@@ -71,6 +74,8 @@ public class SelectTest  extends TestCase {
                 .orderByDesc("member_id");
 
         LOG.info("\n{}", query.toString(true));
+        String answer = "select tran_date,member_id,count(*) from transactions where tran_date >= '2016-08-01' and cp_name = '礦泉水/包裝水' group by tran_date,member_id having count(*) > 2 order by tran_date asc,member_id desc";
+        assertEquals(answer, query.toString());
     }
 
 
@@ -95,6 +100,8 @@ public class SelectTest  extends TestCase {
                 .offset(4);
 
         LOG.info("\n{}", query.toString(true));
+        String answer = "select * from transactions where member_id = '0006E4EA-7B77-78FE-EBB2-B69F564574B0' and c2_name in ('紙尿褲/濕紙巾','手機周邊/配件','紙尿褲/濕紙巾','兒童玩具') order by id desc limit 10 offset 4";
+        assertEquals(answer, query.toString());
     }
 }
 
