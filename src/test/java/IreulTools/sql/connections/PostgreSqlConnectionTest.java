@@ -178,7 +178,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
         ISelect select = Select.from("recommendation_for_users")
                 .where("member_id", memberId)
 //                .where("ws_seq",wsSeq)
-                .orderByDesc("created_at")
+                .orderDescBy("created_at")
                 .limit(1);
 
         LOG.debug(select.toString(true));

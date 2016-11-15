@@ -28,8 +28,8 @@ public class SelectTest  extends TestCase {
                 .where("tran_date >= '2016-08-01'")
                 .where("member_id","0006E4EA-7B77-78FE-EBB2-B69F564574B0")
                 .where("(cp_name = '充氣泳池' or cp_name = '濕紙巾')")
-                .orderByAsc("tran_date")
-                .orderByDesc("member_id");
+                .orderAscBy("tran_date")
+                .orderDescBy("member_id");
 
 
         LOG.info("\n{}", query.toString(true));
@@ -70,8 +70,8 @@ public class SelectTest  extends TestCase {
                 .where("tran_date >= '2016-08-01'")
                 .where("cp_name", "礦泉水/包裝水")
                 .groupWithCount(columns, "> 2")
-                .orderByAsc("tran_date")
-                .orderByDesc("member_id");
+                .orderAscBy("tran_date")
+                .orderDescBy("member_id");
 
         LOG.info("\n{}", query.toString(true));
         String answer = "select tran_date,member_id,count(*) from transactions where tran_date >= '2016-08-01' and cp_name = '礦泉水/包裝水' group by tran_date,member_id having count(*) > 2 order by tran_date asc,member_id desc";
@@ -94,7 +94,7 @@ public class SelectTest  extends TestCase {
         ISelect query = Select.from("transactions")
                 .where("member_id","0006E4EA-7B77-78FE-EBB2-B69F564574B0")
                 .where("c2_name", c2)
-                .orderByDesc("id")
+                .orderDescBy("id")
                 .tap(debugmsg -> LOG.info(debugmsg))
                 .limit(10)
                 .offset(4);

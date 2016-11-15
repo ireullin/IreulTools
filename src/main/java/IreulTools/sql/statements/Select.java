@@ -93,13 +93,13 @@ public class Select implements ISelect {
     }
 
     @Override
-    public ISelect orderByDesc(String column) {
+    public ISelect orderDescBy(String column) {
         orderPart.add(column+" desc");
         return this;
     }
 
     @Override
-    public ISelect orderByAsc(String column) {
+    public ISelect orderAscBy(String column) {
         orderPart.add(column+" asc");
         return this;
     }

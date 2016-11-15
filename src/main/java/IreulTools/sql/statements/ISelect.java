@@ -16,8 +16,8 @@ public interface ISelect extends ISQLSyntax{
     public ISelect columns(List<String> syntax);
     public ISelect count();
     public ISelect distinct(String column);
-    public ISelect orderByDesc(String column);
-    public ISelect orderByAsc(String column);
+    public ISelect orderDescBy(String column);
+    public ISelect orderAscBy(String column);
     public ISelect groupWithCount(String syntax);
     public ISelect groupWithCount(String[] syntax);
     public ISelect groupWithCount(List<String> syntax);
