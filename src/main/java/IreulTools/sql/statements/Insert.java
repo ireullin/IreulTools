@@ -68,7 +68,7 @@ public class Insert implements IInsert{
         }
 
         head.append(") ");
-        body.append(") ");
+        body.append(")");
 
         head.append(body);
 

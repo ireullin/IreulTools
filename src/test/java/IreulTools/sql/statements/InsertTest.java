@@ -21,6 +21,8 @@ public class InsertTest extends TestCase {
                 .toString();
 
         LOG.info(insertStr);
+        String answer = "insert into table1 (field1,field2) values ('1','2')";
+        assertEquals(answer, insertStr.toString());
     }
 
     @Test
@@ -30,9 +32,11 @@ public class InsertTest extends TestCase {
                 .put("member_id","ireullin")
                 .put("recommendation_list", "[]")
                 .put("created_at", "2016-08-04 00:00:00")
-//                .returning("member_id")
+                .returning("member_id")
                 .toString();
 
         LOG.info(insertStr);
+        String answer = "insert into recommendations_20161108_03 (member_id,recommendation_list,created_at) values ('ireullin','[]','2016-08-04 00:00:00') returning member_id";
+        assertEquals(answer, insertStr.toString());
     }
 }
