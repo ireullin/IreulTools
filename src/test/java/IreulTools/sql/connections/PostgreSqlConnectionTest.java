@@ -113,6 +113,10 @@ public class PostgreSqlConnectionTest  extends TestCase {
             LOG.info("Default is {}", defaultDt.toString());
 
             cn.query(cmd, (i,row) -> {
+                if(i==0){
+                    LOG.info("{}", Join.from(row.getColumnNames()).with(",").toString());
+                }
+
                 LOG.info("{}. {}",i, row.column("created_at").toDatetime(defaultDt));
                 return true;
             });
