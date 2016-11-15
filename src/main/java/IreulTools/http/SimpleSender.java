@@ -1,16 +1,18 @@
 package IreulTools.http;
 
-import IreulTools.functionalProgramming.ITap;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 
 /**
  * Created by tech0039 on 2016/11/15.
@@ -19,42 +21,102 @@ public class SimpleSender implements ISimpleSender {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleSender.class);
 
-    private final HttpRequestBase httpRequestBase;
-    private final HttpClientBuilder httpClient;
+    private final HttpURLConnection httpcn;
 
-
-    public static ISimpleSender createWithGet(String url) throws Exception{
-        HttpGet httpGet = new HttpGet(url);
-        return new SimpleSender(httpGet);
+    public static ISimpleSender create(String url) throws Exception{
+        return new SimpleSender(url);
     }
 
 
-    public static ISimpleSender createWithPost(String url, String data) throws Exception{
-        HttpPost post = new HttpPost(url);
-        post.setEntity(new StringEntity(data));
-        return new SimpleSender(post);
+    private SimpleSender(String url) throws Exception{
+        URL u  = new URL(url);
+        this.httpcn = (HttpURLConnection)u.openConnection();
     }
 
+    @Override
+    public String get() throws Exception{
 
-    private SimpleSender(HttpRequestBase request){
-        this.httpRequestBase = request;
-        this.httpClient = HttpClientBuilder.create();
+        httpcn.setRequestMethod("GET");
+        String rsp = extractStream(httpcn.getInputStream());
+        return rsp;
     }
 
 
     @Override
-    public ISimpleSender config(ISimpleSenderParams params) {
-        params.set(this.httpClient, this.httpRequestBase);
+    public String post(String data) throws Exception{
+
+        httpcn.setRequestMethod("POST");
+        httpcn.setDoInput(true);
+
+        OutputStream output = httpcn.getOutputStream();
+        output.write(data.getBytes("UTF-8"));
+        output.flush();
+
+        String rsp = extractStream(httpcn.getInputStream());
+        return rsp;
+    }
+
+
+    @Override
+    public ISimpleSender setHeader(String name, String value) {
+        this.httpcn.setRequestProperty(name, value);
         return this;
     }
 
-    @Override
-    public String send() throws Exception{
-        HttpClient client = this.httpClient.build();
-        HttpResponse rsp = client.execute(this.httpRequestBase);
-        String body = EntityUtils.toString(rsp.getEntity());
-        return body;
+
+    public ISimpleSender ignoreSslVerify() throws Exception {
+
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+            }
+
+            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+            }
+        }
+        };
+
+        // Install the all-trusting trust manager
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+        return this;
     }
+
+
+    private String extractStream(InputStream stream) throws Exception{
+
+        StringBuilder buff = new StringBuilder(100);
+        try(BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"))){
+            while(true){
+                String s = reader.readLine();
+                if(s==null){
+                    break;
+                }
+                buff.append(s);
+            }
+        }
+        catch (Exception e){
+            throw e;
+        }
+        return buff.toString();
+    }
+
 
 
     /*public void send(ITap<HttpResponse> response) throws Exception{
