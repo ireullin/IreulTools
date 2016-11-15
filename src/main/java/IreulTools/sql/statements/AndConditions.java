@@ -76,7 +76,7 @@ public class AndConditions implements IAndConditions {
     }
 
     private IAndConditions handleList(String field, List<Object> val){
-        LOG.debug("{}", val.get(0).getClass().toString());
+        //  LOG.debug("{}", val.get(0).getClass().toString());
         IJoin join = Join.from(val);
         if(val.get(0) instanceof Integer) {
             String buff = appendNumSyntax(field,join.with(",").toString());

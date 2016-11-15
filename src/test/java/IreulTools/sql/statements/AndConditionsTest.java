@@ -26,6 +26,7 @@ public class AndConditionsTest extends TestCase {
         IAndConditions cons1 = new AndConditions();
         cons1.put("fields", var1);
         LOG.info(cons1.toString());
+        assertEquals("fields in ('a','b','c')", cons1.toString());
 
         List<Integer> var2 = new ArrayList<>();
         var2.add(1);
@@ -35,6 +36,7 @@ public class AndConditionsTest extends TestCase {
         IAndConditions cons2 = new AndConditions();
         cons2.put("fields", var2);
         LOG.info(cons2.toString());
+        assertEquals("fields in (1,2,3)", cons2.toString());
     }
 
     @Test
@@ -44,20 +46,24 @@ public class AndConditionsTest extends TestCase {
         IAndConditions cons1 = new AndConditions();
         cons1.put("fields", var1);
         LOG.info(cons1.toString());
+        assertEquals("fields in ('a','b','c')", cons1.toString());
 
         Integer[] var2 = {1,2,3};
         IAndConditions cons2 = new AndConditions();
         cons2.put("fields", var2);
         LOG.info(cons2.toString());
+        assertEquals("fields in (1,2,3)", cons2.toString());
 
         try {
             int[] var3 = {1, 2, 3};
             IAndConditions cons3 = new AndConditions();
             cons3.put("fields", var3);
             LOG.info(cons3.toString());
+            assertEquals(true,false);
         }
         catch (Exception e){
             LOG.info(e.getMessage());
+            assertEquals(true,true);
         }
     }
 
@@ -75,6 +81,7 @@ public class AndConditionsTest extends TestCase {
                 .toString();
 
         LOG.info(rc);
+        assertEquals("range in ('a','b','c') and a = 2 and b = '3' and c > 4", cons.toString());
 
     }
 }
