@@ -63,7 +63,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime month(int v) {
-        calendar.set(Calendar.MONTH, v);
+        calendar.set(Calendar.MONTH, v-1);
         return this;
     }
 
@@ -85,7 +85,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime hour(int v) {
-        calendar.set(Calendar.HOUR, v);
+        calendar.set(Calendar.HOUR_OF_DAY, v);
         return this;
     }
 
@@ -130,6 +130,19 @@ public class Datetime implements IDatetime{
     @Override
     public IDatetime clone(){
         return new Datetime(year(),month(),day(),hour(),min(),sec(),millis());
+    }
+
+    @Override
+    public IDatetime reset(IDatetime dt) {
+        this.year(dt.year())
+            .month(dt.month())
+            .day(dt.day())
+            .hour(dt.hour())
+            .min(dt.min())
+            .sec(dt.sec())
+            .millis(dt.millis());
+
+        return this;
     }
 
     @Override

@@ -16,6 +16,30 @@ public class DatetimeTest extends TestCase {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatetimeTest.class);
 
+
+    @Test
+    public void testReset() {
+        try {
+            String sample = "2016-08-04 13:34:56";
+            IDatetime dt1 = new Datetime(2016,8,4,13,34,56,0);
+            LOG.info(dt1.toString("yyyy-MM-dd HH:mm:ss a"));
+            LOG.info("{}", dt1.hour());
+
+
+            IDatetime dt2 = Datetime.now();
+            LOG.info(dt2.toString("yyyy-MM-dd HH:mm:ss"));
+            dt2.reset(dt1);
+            LOG.info(dt2.toString("yyyy-MM-dd HH:mm:ss a"));
+            assertEquals(dt2.toString("yyyy-MM-dd HH:mm:ss"), sample);
+
+
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
+        }
+    }
+
     @Test
     public void testTimeZone() {
         try {

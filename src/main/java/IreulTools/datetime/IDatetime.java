@@ -24,6 +24,7 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime addOrSubMillis(long v);
     public IDatetime setBeginOfDay();
     public IDatetime clone();
+    public IDatetime reset(IDatetime dt);
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
     public IDatetime setTimeZone(TimeZone tz);
 
