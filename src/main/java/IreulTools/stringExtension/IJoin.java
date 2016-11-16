@@ -1,6 +1,5 @@
 package IreulTools.stringExtension;
 
-import java.util.List;
 
 /**
  * Created by ireullin on 2016/10/23.

@@ -1,7 +1,5 @@
 package IreulTools.collections;
 
-import java.util.Objects;
-
 /**
  * Created by tech0039 on 2016/10/19.
  */

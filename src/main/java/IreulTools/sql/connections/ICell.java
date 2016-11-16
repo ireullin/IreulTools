@@ -1,8 +1,6 @@
 package IreulTools.sql.connections;
 
 import IreulTools.datetime.IDatetime;
-
-import java.sql.Date;
 import java.sql.SQLException;
 
 /**
