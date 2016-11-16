@@ -103,5 +103,21 @@ public class SelectTest  extends TestCase {
         String answer = "select * from transactions where member_id = '0006E4EA-7B77-78FE-EBB2-B69F564574B0' and c2_name in ('紙尿褲/濕紙巾','手機周邊/配件','紙尿褲/濕紙巾','兒童玩具') order by id desc limit 10 offset 4";
         assertEquals(answer, query.toString());
     }
+
+    /**
+     * 測試 沒有where的狀態
+     */
+    @Test
+    public void testExample5() {
+        ISelect select = Select
+                .from("transactions")
+                .columns("tran_date")
+                .orderDescBy("tran_date")
+                .limit(1);
+
+        LOG.info("\n{}", select.toString(true));
+        String answer = "select tran_date from transactions order by tran_date desc limit 1";
+        assertEquals(answer, select.toString());
+    }
 }
 

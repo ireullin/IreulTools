@@ -35,6 +35,16 @@ public class AndConditions implements IAndConditions {
                 .toString();
     }
 
+    @Override
+    public int size() {
+        return cons.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return cons.isEmpty();
+    }
+
     public IAndConditions put(String field, Object val){
         if(val instanceof List){
             return handleList(field, (List)val);

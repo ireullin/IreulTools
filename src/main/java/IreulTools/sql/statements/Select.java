@@ -177,10 +177,15 @@ public class Select implements ISelect {
             orderby = "order by "+Join.from(orderPart).with(",").toString();
         }
 
+        String where = "";
+        if(!wherePart.isEmpty()) {
+            where = "where "+wherePart.toString(doesIndent);
+        }
+
         List<String> raw = Arrays.asList(
                 "select "+columns,
                 "from "+table,
-                "where "+wherePart.toString(doesIndent),
+                where,
                 groupBy,
                 having,
                 orderby,

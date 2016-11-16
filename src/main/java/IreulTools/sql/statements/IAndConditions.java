@@ -8,4 +8,6 @@ public interface IAndConditions {
     public IAndConditions put(String field, Object val);
     public IAndConditions put(String syntax);
     public String toString(boolean doesIndent);
+    public int size();
+    public boolean isEmpty();
 }
