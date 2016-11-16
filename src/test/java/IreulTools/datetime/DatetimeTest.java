@@ -1,5 +1,6 @@
 package IreulTools.datetime;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,21 +19,35 @@ public class DatetimeTest extends TestCase {
 
 
     @Test
+    public void testZeroDay() {
+        try {
+            IDatetime dt1 = Datetime.zeroDay().toUTC();
+            LOG.info(dt1.toString());
+
+            IDatetime dt2 = Datetime.readFrom("1970-01-01 08:00:00.000", "yyyy-MM-dd HH:mm:ss.SSS").toUTC();
+            LOG.info(dt2.toString());
+
+            assertEquals(dt1.equals(dt2) , true);
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
+        }
+    }
+
+
+    @Test
     public void testReset() {
         try {
             String sample = "2016-08-04 13:34:56";
-            IDatetime dt1 = new Datetime(2016,8,4,13,34,56,0);
+            IDatetime dt1 = Datetime.readFrom(sample, "yyyy-MM-dd HH:mm:ss");
             LOG.info(dt1.toString("yyyy-MM-dd HH:mm:ss a"));
-            LOG.info("{}", dt1.hour());
-
 
             IDatetime dt2 = Datetime.now();
             LOG.info(dt2.toString("yyyy-MM-dd HH:mm:ss"));
             dt2.reset(dt1);
             LOG.info(dt2.toString("yyyy-MM-dd HH:mm:ss a"));
             assertEquals(dt2.toString("yyyy-MM-dd HH:mm:ss"), sample);
-
-
         }
         catch (Exception e){
             LOG.error("error", e);

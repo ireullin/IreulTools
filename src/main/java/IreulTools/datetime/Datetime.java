@@ -50,6 +50,10 @@ public class Datetime implements IDatetime{
         return new Datetime();
     }
 
+    public static IDatetime  zeroDay(){
+        return new Datetime(0);
+    }
+
     @Override
     public int year() {
         return  calendar.get(Calendar.YEAR);
