@@ -10,8 +10,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 /**
@@ -27,35 +25,57 @@ public class SimpleSender implements ISimpleSender {
         return new SimpleSender(url);
     }
 
+    public static String get(String url) throws Exception{
+        return create(url).get().getBody();
+    }
+
+    public static String post(String url, String data) throws Exception{
+        return create(url).post(data).getBody();
+    }
 
     private SimpleSender(String url) throws Exception{
+        ignoreSslVerify();
         URL u  = new URL(url);
         this.httpcn = (HttpURLConnection)u.openConnection();
     }
 
     @Override
-    public String get() throws Exception{
+    public ISimpleSender setReadTimeout(int timeout){
+        this.httpcn.setReadTimeout(timeout);
+        return this;
+    }
+
+    @Override
+    public ISimpleSender setConnectTimeout(int timeout){
+        this.httpcn.setConnectTimeout(timeout);
+        return this;
+    }
+
+    @Override
+    public IResponse get() throws Exception{
 
         httpcn.setRequestMethod("GET");
-        String rsp = extractStream(httpcn.getInputStream());
+        String body = extractStream(httpcn.getInputStream());
+        Response rsp = new Response(body, httpcn.getResponseCode(), httpcn.getResponseMessage());
+        httpcn.disconnect();
         return rsp;
     }
 
-
     @Override
-    public String post(String data) throws Exception{
+    public IResponse post(String data) throws Exception{
 
         httpcn.setRequestMethod("POST");
-        httpcn.setDoInput(true);
+        httpcn.setDoOutput(true);
 
         OutputStream output = httpcn.getOutputStream();
         output.write(data.getBytes("UTF-8"));
         output.flush();
 
-        String rsp = extractStream(httpcn.getInputStream());
+        String body = extractStream(httpcn.getInputStream());
+        Response rsp = new Response(body, httpcn.getResponseCode(), httpcn.getResponseMessage());
+        httpcn.disconnect();
         return rsp;
     }
-
 
     @Override
     public ISimpleSender setHeader(String name, String value) {
@@ -64,7 +84,7 @@ public class SimpleSender implements ISimpleSender {
     }
 
 
-    public ISimpleSender ignoreSslVerify() throws Exception {
+    private ISimpleSender ignoreSslVerify() throws Exception {
 
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -83,21 +103,21 @@ public class SimpleSender implements ISimpleSender {
         // Install the all-trusting trust manager
         SSLContext sc = SSLContext.getInstance("SSL");
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        ((HttpsURLConnection)httpcn).setDefaultSSLSocketFactory(sc.getSocketFactory());
 
         // Create all-trusting host name verifier
         HostnameVerifier allHostsValid = new HostnameVerifier() {
             public boolean verify(String hostname, SSLSession session) {
+                LOG.debug(hostname);
                 return true;
             }
         };
 
         // Install the all-trusting host verifier
-        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+        ((HttpsURLConnection)httpcn).setDefaultHostnameVerifier(allHostsValid);
 
         return this;
     }
-
 
     private String extractStream(InputStream stream) throws Exception{
 
@@ -115,46 +135,8 @@ public class SimpleSender implements ISimpleSender {
             throw e;
         }
         return buff.toString();
+
     }
 
 
-
-    /*public void send(ITap<HttpResponse> response) throws Exception{
-        HttpClient client = this.httpClient.build();
-        HttpResponse rsp = client.execute(this.httpRequestBase);
-        response.put(rsp);
-    }*/
-
-
-//    @Override
-//    public String withGet() throws Exception{
-//        HttpGet httpGet = new HttpGet(url);
-//        headers.each((k,v) -> {
-//            httpGet.setHeader(k,v.toString());
-//            return true;
-//        });
-//
-//        HttpClient client = HttpClientBuilder.create().build();
-//        HttpResponse rsp = client.execute(httpGet);
-//        String body = EntityUtils.toString(rsp.getEntity());
-//
-//        rsp.
-//        return body;
-//    }
-//
-//    @Override
-//    public String withPost(String data) throws Exception{
-//        HttpEntity reqEntity = new StringEntity(data);
-//
-//        HttpPost httpPost = new HttpPost(url);
-//        headers.each((k,v) -> {
-//            httpPost.setHeader(k,v.toString());
-//            return true;
-//        });
-//
-//        HttpClient client = HttpClientBuilder.create().build();
-//        HttpResponse rsp = client.execute(httpPost);
-//        String body = EntityUtils.toString(rsp.getEntity());
-//        return body;
-//    }
 }
