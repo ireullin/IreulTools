@@ -51,7 +51,8 @@ public class Datetime implements IDatetime{
     }
 
     public static IDatetime  zeroDay(){
-        return new Datetime(0);
+        Datetime dt = new Datetime(0);
+        return dt.toUTC();
     }
 
     @Override

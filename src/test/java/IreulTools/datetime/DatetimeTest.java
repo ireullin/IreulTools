@@ -21,7 +21,7 @@ public class DatetimeTest extends TestCase {
     @Test
     public void testZeroDay() {
         try {
-            IDatetime dt1 = Datetime.zeroDay().toUTC();
+            IDatetime dt1 = Datetime.zeroDay();
             LOG.info(dt1.toString());
 
             IDatetime dt2 = Datetime.readFrom("1970-01-01 08:00:00.000", "yyyy-MM-dd HH:mm:ss.SSS").toUTC();
