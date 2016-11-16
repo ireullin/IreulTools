@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
@@ -17,7 +18,35 @@ import java.security.cert.X509Certificate;
  */
 public class SimpleSender implements ISimpleSender {
 
+    private static class FakeX509TrustManager implements X509TrustManager{
+        @Override
+        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+
+        }
+
+        @Override
+        public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
+
+        }
+
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+    }
+
+
+    private static class FakeHostnameVerifier implements HostnameVerifier{
+        @Override
+        public boolean verify(String s, SSLSession sslSession) {
+            return true;
+        }
+    }
+
+
     private static final Logger LOG = LoggerFactory.getLogger(SimpleSender.class);
+    private static final FakeX509TrustManager fakeX509TrustManager = new FakeX509TrustManager();
+    private static final FakeHostnameVerifier fakeHostnameVerifier = new FakeHostnameVerifier();
 
     private final HttpURLConnection httpcn;
 
@@ -87,34 +116,15 @@ public class SimpleSender implements ISimpleSender {
     private ISimpleSender ignoreSslVerify() throws Exception {
 
         // Create a trust manager that does not validate certificate chains
-        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            public void checkClientTrusted(X509Certificate[] certs, String authType) {
-            }
-
-            public void checkServerTrusted(X509Certificate[] certs, String authType) {
-            }
-        }
-        };
+        TrustManager[] trustAllCerts = new TrustManager[]{ fakeX509TrustManager };
 
         // Install the all-trusting trust manager
         SSLContext sc = SSLContext.getInstance("SSL");
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
         ((HttpsURLConnection)httpcn).setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-        // Create all-trusting host name verifier
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                LOG.debug(hostname);
-                return true;
-            }
-        };
-
         // Install the all-trusting host verifier
-        ((HttpsURLConnection)httpcn).setDefaultHostnameVerifier(allHostsValid);
+        ((HttpsURLConnection)httpcn).setDefaultHostnameVerifier(fakeHostnameVerifier);
 
         return this;
     }

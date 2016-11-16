@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by tech0039 on 2016/11/15.
  */
-public class SendSenderTest extends TestCase {
+public class SimpleSenderTest extends TestCase {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SendSenderTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SimpleSenderTest.class);
 
     @Test
     public void testSimplestExample(){
