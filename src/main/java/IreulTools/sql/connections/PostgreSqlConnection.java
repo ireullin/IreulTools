@@ -146,7 +146,6 @@ public class PostgreSqlConnection implements IConnection {
 
         PreparedStatement pst = this.cn.prepareStatement(cmd);
         int rc = pst.executeUpdate();
-        LOG.debug("rc={}",rc);
         pst.close();
 
         return this;
