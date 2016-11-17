@@ -13,4 +13,5 @@ public interface IConnection extends AutoCloseable{
     public IConnection query(ISQLSyntax sql, IEachPair<Integer,IRow> each) throws SQLException;
     public IConnection exec(String cmd, IEachPair<Integer,IRow> each) throws SQLException;
     public IConnection exec(ISQLSyntax sql, IEachPair<Integer,IRow> each) throws SQLException;
+    public IConnection execMutiCmd(String cmd) throws SQLException;
 }

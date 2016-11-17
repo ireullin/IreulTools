@@ -134,6 +134,24 @@ public class PostgreSqlConnection implements IConnection {
         return this;
     }
 
+
+    /**
+     * Execute mutiple SQL syntax, splited with ';' , and not return anything.
+     * @param cmd: SQL syntax.
+     * @return return no return
+     * @throws SQLException
+     */
+    @Override
+    public IConnection execMutiCmd(String cmd) throws SQLException{
+
+        PreparedStatement pst = this.cn.prepareStatement(cmd);
+        int rc = pst.executeUpdate();
+        LOG.debug("rc={}",rc);
+        pst.close();
+
+        return this;
+    }
+
     @Override
     public IConnection query(ISQLSyntax sql, IEachPair<Integer, IRow> each) throws SQLException {
         return query(sql.toString(), each);

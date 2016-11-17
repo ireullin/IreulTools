@@ -9,6 +9,7 @@ import IreulTools.sql.statements.IInsert;
 import IreulTools.sql.statements.ISelect;
 import IreulTools.sql.statements.Insert;
 import IreulTools.sql.statements.Select;
+import IreulTools.stringExtension.IJoin;
 import IreulTools.stringExtension.Join;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -130,6 +131,39 @@ public class PostgreSqlConnectionTest  extends TestCase {
             LOG.error("Exception", e);
         }
 
+    }
+
+    @Test
+    public void testMutiInsert() {
+
+        ISimpleMap options = generateOptions();
+
+        try {
+            String cmd = Insert.into("models")
+                    .put("comment", "test")
+                    .put("model_name", "test_model")
+                    .put("model_ver", "v0000")
+                    .put("weights","[1,2,3]")
+                    .put("created_at", Datetime.now())
+                    .toString();
+
+            IJoin muticmd = Join.from(cmd);
+            for(int i=0; i<2; i++){
+                muticmd.and(cmd);
+            }
+            muticmd.with(";");
+
+            LOG.info(muticmd.toString());
+            IConnection cn = PostgreSqlConnection.create(options);
+            cn.execMutiCmd(muticmd.toString());
+            cn.close();
+        }
+        catch (SQLException e){
+            LOG.error("SQLException", e);
+        }
+        catch (Exception e){
+            LOG.error("Exception", e);
+        }
     }
 
 
