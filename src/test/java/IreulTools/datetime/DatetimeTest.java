@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by ireullin on 2016/10/22.
+ * It's an immutable datetime class.
  */
 public class DatetimeTest extends TestCase {
 
@@ -93,24 +93,25 @@ public class DatetimeTest extends TestCase {
         IDatetime dt2 = dt1.year(2012).month(2).day(15).hour(6).min(10).sec(5).millis(200);
         LOG.info(dt1.toString());
         LOG.info(dt2.toString());
-        assertEquals(dt1.toString(), dt2.toString());
+        assertEquals(dt1.equals(dt2),false);
 
         IDatetime dt3 = new Datetime(2015,8,4,9,10,15,000);
 
         LOG.info(dt3.toString());
         assertEquals("2015-08-04 09:10:15.000", dt3.toString());
 
-        LOG.info(dt3.setBeginOfDay().toString());
-        assertEquals("2015-08-04 00:00:00.000", dt3.toString());
+        IDatetime beginOfDt3 = dt3.setBeginOfDay();
+        LOG.info(beginOfDt3.toString());
+        assertEquals("2015-08-04 00:00:00.000", beginOfDt3.toString());
 
-        LOG.info("{}", dt3.stamp());
-        assertEquals(1438617600000l, dt3.stamp());
+        LOG.info("{} stamp:{}", dt3.toString(), dt3.stamp());
+        assertEquals(1438650615000l, dt3.stamp());
 
         LOG.info("==============================");
 
         IDatetime dt4 = new Datetime(dt3.stamp());
         LOG.info(dt4.toString());
-        assertEquals("2015-08-04 00:00:00.000", dt4.toString());
+        assertEquals(dt3.stamp(), dt4.stamp());
         LOG.info("==============================");
 
         try {

@@ -21,22 +21,6 @@ public class Datetime implements IDatetime{
 
     public final Calendar calendar = new GregorianCalendar();
 
-    public Datetime(){
-    }
-
-    public Datetime(Date dt){
-        calendar.setTime(dt);
-    }
-
-    public Datetime(long stamp){
-        calendar.setTimeInMillis(stamp);
-    }
-
-    public Datetime(int year, int month, int day, int hour, int min, int sec, int millis){
-        calendar.set( year, month-1, day, hour, min, sec);
-        calendar.set(Calendar.MILLISECOND, millis);
-    }
-
     public static IDatetime readFrom(String dtstr, String format) throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = sdf.parse(dtstr);
@@ -55,6 +39,23 @@ public class Datetime implements IDatetime{
         return dt.toUTC();
     }
 
+    public Datetime(){
+    }
+
+    public Datetime(Date dt){
+        calendar.setTime(dt);
+    }
+
+    public Datetime(long stamp){
+        calendar.setTimeInMillis(stamp);
+    }
+
+    public Datetime(int year, int month, int day, int hour, int min, int sec, int millis){
+        calendar.set( year, month-1, day, hour, min, sec);
+        calendar.set(Calendar.MILLISECOND, millis);
+    }
+
+
     @Override
     public int year() {
         return  calendar.get(Calendar.YEAR);
@@ -62,14 +63,12 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime year(int v) {
-        calendar.set(Calendar.YEAR, v);
-        return this;
+        return new Datetime(v,month(),day(),hour(),min(),sec(),millis());
     }
 
     @Override
     public IDatetime month(int v) {
-        calendar.set(Calendar.MONTH, v-1);
-        return this;
+        return new Datetime(year(),v,day(),hour(),min(),sec(),millis());
     }
 
     @Override
@@ -79,8 +78,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime day(int v) {
-        calendar.set(Calendar.DAY_OF_MONTH, v);
-        return this;
+        return new Datetime(year(),month(),v,hour(),min(),sec(),millis());
     }
 
     @Override
@@ -90,8 +88,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime hour(int v) {
-        calendar.set(Calendar.HOUR_OF_DAY, v);
-        return this;
+        return new Datetime(year(),month(),day(),v,min(),sec(),millis());
     }
 
     @Override
@@ -101,8 +98,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime min(int v) {
-        calendar.set(Calendar.MINUTE, v);
-        return this;
+        return new Datetime(year(),month(),day(),hour(),v,sec(),millis());
     }
 
     @Override
@@ -117,8 +113,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime sec(int v) {
-        calendar.set(Calendar.SECOND, v);
-        return this;
+        return new Datetime(year(),month(),day(),hour(),min(),v,millis());
     }
 
     @Override
@@ -128,25 +123,18 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime millis(int v) {
-        calendar.set(Calendar.MILLISECOND, v);
-        return this;
+        return new Datetime(year(),month(),day(),hour(),min(),sec(),v);
     }
 
     @Override
     public IDatetime clone(){
-        return new Datetime(year(),month(),day(),hour(),min(),sec(),millis());
+        return new Datetime(stamp());
     }
 
     @Override
     public IDatetime reset(IDatetime dt) {
-        this.year(dt.year())
-            .month(dt.month())
-            .day(dt.day())
-            .hour(dt.hour())
-            .min(dt.min())
-            .sec(dt.sec())
-            .millis(dt.millis());
-
+        calendar.set( dt.year(), dt.month()-1, dt.day(), dt.hour(), dt.min(), dt.sec());
+        calendar.set(Calendar.MILLISECOND, dt.millis());
         return this;
     }
 
@@ -157,10 +145,8 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime setBeginOfDay() {
-        return this.hour(0).min(0).sec(0).millis(0);
+        return new Datetime(year(),month(),day(),0,0,0,0);
     }
-
-
 
     @Override
     public IDatetime addOrSubDay(double v) {
@@ -184,8 +170,9 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime addOrSubMillis(long v) {
-        calendar.add(Calendar.MILLISECOND, (int)v);
-        return this;
+        Datetime dt = new Datetime(this.stamp());
+        dt.calendar.add(Calendar.MILLISECOND, (int)v);
+        return dt;
     }
 
     @Override
@@ -233,8 +220,9 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime setTimeZone(TimeZone tz){
-        calendar.setTimeZone(tz);
-        return this;
+        Datetime dt = new Datetime(stamp());
+        dt.calendar.setTimeZone(tz);
+        return dt;
     }
 
     @Override
