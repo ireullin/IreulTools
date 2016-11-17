@@ -28,7 +28,7 @@ public class Insert implements IInsert{
 
     public IInsert put(Object column, Object value){
         cols.add(column.toString());
-        vals.add(value.toString());
+        vals.add( SqlSyntaxEscape.escape(value.toString()) );
         return this;
     }
 
