@@ -4,8 +4,6 @@ import IreulTools.collections.ISimpleMap;
 import IreulTools.collections.SimpleMap;
 import IreulTools.datetime.Datetime;
 import IreulTools.datetime.IDatetime;
-import IreulTools.sql.connections.Exceptions.InitialFailedException;
-import IreulTools.sql.statements.IInsert;
 import IreulTools.sql.statements.ISelect;
 import IreulTools.sql.statements.Insert;
 import IreulTools.sql.statements.Select;

@@ -1,14 +1,9 @@
 package IreulTools.datetime;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import junit.framework.TestCase;
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * It's an immutable datetime class.
@@ -25,7 +20,10 @@ public class DatetimeTest extends TestCase {
             LOG.info(dt1.toString());
 
             IDatetime dt2 = Datetime.readFrom("1970-01-01 08:00:00.000", "yyyy-MM-dd HH:mm:ss.SSS").toUTC();
+            LOG.info(dt2.getTimeZone().toString());
             LOG.info(dt2.toString());
+
+
 
             assertEquals(dt1.equals(dt2) , true);
         }
