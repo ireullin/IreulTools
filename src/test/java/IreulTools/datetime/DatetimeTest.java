@@ -17,13 +17,13 @@ public class DatetimeTest extends TestCase {
     public void testZeroDay() {
         try {
             IDatetime dt1 = Datetime.zeroDay();
+            LOG.info(dt1.timeZone().toString());
             LOG.info(dt1.toString());
 
-            IDatetime dt2 = Datetime.readFrom("1970-01-01 08:00:00.000", "yyyy-MM-dd HH:mm:ss.SSS").toUTC();
-            LOG.info(dt2.getTimeZone().toString());
+            IDatetime dt2 = Datetime.readFrom("1970-01-01 08:00:00.000", "yyyy-MM-dd HH:mm:ss.SSS");
+            LOG.info(dt2.timeZone().toString());
             LOG.info(dt2.toString());
-
-
+            LOG.info(dt2.toUTC().toString());
 
             assertEquals(dt1.equals(dt2) , true);
         }
@@ -57,25 +57,25 @@ public class DatetimeTest extends TestCase {
     public void testTimeZone() {
         try {
             IDatetime dt1 = Datetime.now();
-            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.getTimeZone());
+            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.timeZone());
 
             IDatetime dtutc = dt1.toUTC();
-            LOG.info("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.getTimeZone());
-            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.getTimeZone());
+            LOG.info("{} {}", dtutc.toString("yyyy-MM-dd HH:mm:ss zzz "), dtutc.timeZone());
+            LOG.info("{} {}", dt1.toString("yyyy-MM-dd HH:mm:ss zzz "), dt1.timeZone());
 
             IDatetime dt2 = dt1.toLocalTime();
-            LOG.info("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.getTimeZone());
+            LOG.info("{} {}", dt2.toString("yyyy-MM-dd HH:mm:ss zzz "), dt2.timeZone());
 
 
             IDatetime dt3 = Datetime.readFrom("2016-10-25 16:07:21 TST", "yyyy-MM-dd HH:mm:ss zzz");
-            LOG.info("{} {}", dt3.toString("yyyy-MM-dd HH:mm:ss zzz"), dt3.getTimeZone());
+            LOG.info("{} {}", dt3.toString("yyyy-MM-dd HH:mm:ss zzz"), dt3.timeZone());
 
             //!!!!!!!!!! it will get CEST. I don't know why ????????
             IDatetime dt4 = Datetime.readFrom("2016-10-25 16:07:21 UTC", "yyyy-MM-dd HH:mm:ss zzz");
-            LOG.info("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.getTimeZone());
+            LOG.info("{} {}", dt4.toString("yyyy-MM-dd HH:mm:ss zzz"), dt4.timeZone());
 
             IDatetime dt5 = Datetime.readFrom("2016-10-25 16:07:21", "yyyy-MM-dd HH:mm:ss");
-            LOG.info("{} {}", dt5.toString("yyyy-MM-dd HH:mm:ss zzz"), dt5.getTimeZone());
+            LOG.info("{} {}", dt5.toString("yyyy-MM-dd HH:mm:ss zzz"), dt5.timeZone());
 
         }
         catch (Exception e){

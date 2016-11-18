@@ -14,6 +14,6 @@ public interface IReadOnlyDatetime {
     public int sec();
     public int millis();
     public long stamp();
-    public TimeZone getTimeZone();
+    public TimeZone timeZone();
     public String toString(String format) throws Exception;
 }
