@@ -15,9 +15,9 @@ import java.util.TimeZone;
 /**
  * Created by ireullin on 2016/10/22.
  */
-public class Datetime implements IDatetime{
+public class ImmutableDatetime implements IDatetime{
 
-    private static final Logger LOG = LoggerFactory.getLogger(Datetime.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetime.class);
 
     public final Calendar calendar = new GregorianCalendar();
 
@@ -25,50 +25,50 @@ public class Datetime implements IDatetime{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date date = sdf.parse(dtstr);
         TimeZone tz = sdf.getTimeZone();
-        Datetime dt = new Datetime(date, tz);
+        ImmutableDatetime dt = new ImmutableDatetime(date, tz);
         return dt;
     }
 
     public static IDatetime  now(){
-        return new Datetime();
+        return new ImmutableDatetime();
     }
 
     public static IDatetime  zeroDay(){
-        Datetime dt = new Datetime(0);
+        ImmutableDatetime dt = new ImmutableDatetime(0);
         return dt.toUTC();
     }
 
-    public Datetime(){
+    public ImmutableDatetime(){
     }
 
-    public Datetime(TimeZone tz){
+    public ImmutableDatetime(TimeZone tz){
         calendar.setTimeZone(tz);
     }
 
-    public Datetime(Date dt){
+    public ImmutableDatetime(Date dt){
         calendar.setTime(dt);
     }
 
-    public Datetime(Date dt, TimeZone tz){
+    public ImmutableDatetime(Date dt, TimeZone tz){
         calendar.setTime(dt);
         calendar.setTimeZone(tz);
     }
 
-    public Datetime(long stamp){
+    public ImmutableDatetime(long stamp){
         calendar.setTimeInMillis(stamp);
     }
 
-    public Datetime(long stamp, TimeZone tz){
+    public ImmutableDatetime(long stamp, TimeZone tz){
         calendar.setTimeInMillis(stamp);
         calendar.setTimeZone(tz);
     }
 
-    public Datetime(int year, int month, int day, int hour, int min, int sec, int millis){
+    public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis){
         calendar.set( year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
     }
 
-    public Datetime(int year, int month, int day, int hour, int min, int sec, int millis, TimeZone tz){
+    public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis, TimeZone tz){
         calendar.set( year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
         calendar.setTimeZone(tz);
@@ -82,7 +82,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime year(int v) {
-        return new Datetime(v,month(),day(),hour(),min(),sec(),millis(), timeZone());
+        return new ImmutableDatetime(v,month(),day(),hour(),min(),sec(),millis(), getTimeZone());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime month(int v) {
-        return new Datetime(year(),v,day(),hour(),min(),sec(),millis(), timeZone());
+        return new ImmutableDatetime(year(),v,day(),hour(),min(),sec(),millis(), getTimeZone());
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime day(int v) {
-        return new Datetime(year(),month(),v,hour(),min(),sec(),millis(), timeZone());
+        return new ImmutableDatetime(year(),month(),v,hour(),min(),sec(),millis(), getTimeZone());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime hour(int v) {
-        return new Datetime(year(),month(),day(),v,min(),sec(),millis(), timeZone());
+        return new ImmutableDatetime(year(),month(),day(),v,min(),sec(),millis(), getTimeZone());
     }
 
     @Override
@@ -122,7 +122,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime min(int v) {
-        return new Datetime(year(),month(),day(),hour(),v,sec(),millis(), timeZone());
+        return new ImmutableDatetime(year(),month(),day(),hour(),v,sec(),millis(), getTimeZone());
     }
 
     @Override
@@ -132,7 +132,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime sec(int v) {
-        return new Datetime(year(),month(),day(),hour(),min(),v,millis(), timeZone());
+        return new ImmutableDatetime(year(),month(),day(),hour(),min(),v,millis(), getTimeZone());
     }
 
     @Override
@@ -142,18 +142,18 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime millis(int v) {
-        return new Datetime(year(),month(),day(),hour(),min(),sec(),v, timeZone());
+        return new ImmutableDatetime(year(),month(),day(),hour(),min(),sec(),v, getTimeZone());
     }
 
     @Override
     public IDatetime clone(){
-        return new Datetime(stamp(), timeZone());
+        return new ImmutableDatetime(stamp(), getTimeZone());
     }
 
     @Override
     public IDatetime reset(IDatetime dt) {
         calendar.setTimeInMillis(dt.stamp());
-        calendar.setTimeZone(dt.timeZone());
+        calendar.setTimeZone(dt.getTimeZone());
         return this;
     }
 
@@ -163,8 +163,8 @@ public class Datetime implements IDatetime{
     }
 
     @Override
-    public IDatetime setBeginOfDay() {
-        return new Datetime(year(),month(),day(),0,0,0,0, timeZone());
+    public IDatetime toBeginOfDay() {
+        return new ImmutableDatetime(year(),month(),day(),0,0,0,0, getTimeZone());
     }
 
     @Override
@@ -189,7 +189,7 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime addOrSubMillis(long v) {
-        Datetime dt = new Datetime(this.stamp(), timeZone());
+        ImmutableDatetime dt = new ImmutableDatetime(this.stamp(), getTimeZone());
         dt.calendar.add(Calendar.MILLISECOND, (int)v);
         return dt;
     }
@@ -208,7 +208,7 @@ public class Datetime implements IDatetime{
 
     public String toString(String format) throws Exception{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        sdf.setTimeZone(timeZone());
+        sdf.setTimeZone(getTimeZone());
         return sdf.format(calendar.getTime());
     }
 
@@ -217,7 +217,7 @@ public class Datetime implements IDatetime{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Datetime datetime = (Datetime) o;
+        ImmutableDatetime datetime = (ImmutableDatetime) o;
         return datetime.stamp()==this.stamp();
     }
 
@@ -239,23 +239,23 @@ public class Datetime implements IDatetime{
 
     @Override
     public IDatetime toTimeZone(TimeZone tz){
-        return new Datetime(stamp(), tz);
+        return new ImmutableDatetime(stamp(), tz);
     }
 
     @Override
-    public TimeZone timeZone(){
+    public TimeZone getTimeZone(){
         return calendar.getTimeZone();
     }
 
     @Override
     public IDatetime toUTC(){
         TimeZone tz = TimeZone.getTimeZone("UTC");
-        return new Datetime(stamp(),tz);
+        return new ImmutableDatetime(stamp(),tz);
     }
 
     @Override
     public IDatetime toLocalTime(){
         TimeZone tz = TimeZone.getDefault();
-        return new Datetime(stamp(),tz);
+        return new ImmutableDatetime(stamp(),tz);
     }
 }

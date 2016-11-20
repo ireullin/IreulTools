@@ -16,21 +16,21 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime min(int v);
     public IDatetime sec(int v);
     public IDatetime millis(int v);
-    public TimeZone timeZone();
-    
+
     public IDatetime addOrSubDay(double v);
     public IDatetime addOrSubHour(double v);
     public IDatetime addOrSubMin(double v);
     public IDatetime addOrSubSec(double v);
     public IDatetime addOrSubMillis(long v);
-    public IDatetime setBeginOfDay();
-    public IDatetime clone();
-    public IDatetime reset(IDatetime dt);
-    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
 
+    public IDatetime reset(IDatetime dt);
+
+    public IDatetime clone();
+    public IDatetime toBeginOfDay();
     public IDatetime toTimeZone(TimeZone tz);
     public IDatetime toUTC();
     public IDatetime toLocalTime();
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
 
     public IDuration during(IReadOnlyDatetime dt);
 }

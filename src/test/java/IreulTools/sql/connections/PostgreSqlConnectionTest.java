@@ -2,7 +2,7 @@ package IreulTools.sql.connections;
 
 import IreulTools.collections.ISimpleMap;
 import IreulTools.collections.SimpleMap;
-import IreulTools.datetime.Datetime;
+import IreulTools.datetime.ImmutableDatetime;
 import IreulTools.datetime.IDatetime;
 import IreulTools.sql.statements.ISelect;
 import IreulTools.sql.statements.Insert;
@@ -108,7 +108,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
                     "from models"
             };
             String cmd = Join.from(selects).toString();
-            IDatetime defaultDt = Datetime.now().setBeginOfDay();
+            IDatetime defaultDt = ImmutableDatetime.now().toBeginOfDay();
             LOG.info("Default is {}", defaultDt.toString());
 
             cn.query(cmd, (i,row) -> {
@@ -142,7 +142,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
                     .put("model_name", "test_model")
                     .put("model_ver", "v0000")
                     .put("weights","[1,2,3]")
-                    .put("created_at", Datetime.now())
+                    .put("created_at", ImmutableDatetime.now())
                     .toString();
 
             IJoin muticmd = Join.from(cmd);
@@ -176,7 +176,7 @@ public class PostgreSqlConnectionTest  extends TestCase {
                     .put("model_name", "test_model")
                     .put("model_ver", "v0000")
                     .put("weights","[1,2,3]")
-                    .put("created_at", Datetime.now())
+                    .put("created_at", ImmutableDatetime.now())
                     .toString();
 
             LOG.info(cmd);

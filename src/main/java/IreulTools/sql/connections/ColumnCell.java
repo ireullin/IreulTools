@@ -1,6 +1,6 @@
 package IreulTools.sql.connections;
 
-import IreulTools.datetime.Datetime;
+import IreulTools.datetime.ImmutableDatetime;
 import IreulTools.datetime.IDatetime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +100,7 @@ public class ColumnCell implements ICell {
 
     @Override
     public IDatetime toDatetime() throws SQLException{
-        return new Datetime( rs.getTimestamp(column) );
+        return new ImmutableDatetime( rs.getTimestamp(column) );
     }
 
     @Override
