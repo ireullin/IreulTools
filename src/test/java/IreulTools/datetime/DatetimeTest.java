@@ -102,6 +102,10 @@ public class DatetimeTest extends TestCase {
         LOG.info(beginOfDt3.toString());
         assertEquals("2015-08-04 00:00:00.000", beginOfDt3.toString());
 
+        IDatetime endOfDt3 = dt3.toEndOfDay();
+        LOG.info(endOfDt3.toString());
+        assertEquals("2015-08-04 23:59:59.999", endOfDt3.toString());
+
         LOG.info("{} stamp:{}", dt3.toString(), dt3.stamp());
         assertEquals(1438650615000l, dt3.stamp());
 

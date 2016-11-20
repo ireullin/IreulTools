@@ -23,10 +23,11 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime addOrSubSec(double v);
     public IDatetime addOrSubMillis(long v);
 
-    public IDatetime reset(IDatetime dt);
+    public IDatetime reset(IReadOnlyDatetime dt);
 
     public IDatetime clone();
     public IDatetime toBeginOfDay();
+    public IDatetime toEndOfDay();
     public IDatetime toTimeZone(TimeZone tz);
     public IDatetime toUTC();
     public IDatetime toLocalTime();

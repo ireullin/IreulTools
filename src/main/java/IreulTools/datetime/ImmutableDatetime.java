@@ -54,6 +54,10 @@ public class ImmutableDatetime implements IDatetime{
         calendar.setTimeZone(tz);
     }
 
+    public ImmutableDatetime(IReadOnlyDatetime datetime){
+        calendar.setTimeInMillis(datetime.stamp());
+    }
+
     public ImmutableDatetime(long stamp){
         calendar.setTimeInMillis(stamp);
     }
@@ -61,6 +65,15 @@ public class ImmutableDatetime implements IDatetime{
     public ImmutableDatetime(long stamp, TimeZone tz){
         calendar.setTimeInMillis(stamp);
         calendar.setTimeZone(tz);
+    }
+
+
+    public ImmutableDatetime(int year, int month, int day){
+        this(year,month,day,0,0,0,0);
+    }
+
+    public ImmutableDatetime(int year, int month, int day, TimeZone tz){
+        this(year,month,day,0,0,0,0,tz);
     }
 
     public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis){
@@ -151,7 +164,7 @@ public class ImmutableDatetime implements IDatetime{
     }
 
     @Override
-    public IDatetime reset(IDatetime dt) {
+    public IDatetime reset(IReadOnlyDatetime dt) {
         calendar.setTimeInMillis(dt.stamp());
         calendar.setTimeZone(dt.getTimeZone());
         return this;
@@ -165,6 +178,11 @@ public class ImmutableDatetime implements IDatetime{
     @Override
     public IDatetime toBeginOfDay() {
         return new ImmutableDatetime(year(),month(),day(),0,0,0,0, getTimeZone());
+    }
+
+    @Override
+    public IDatetime toEndOfDay() {
+        return new ImmutableDatetime(year(),month(),day(),23,59,59,999, getTimeZone());
     }
 
     @Override
