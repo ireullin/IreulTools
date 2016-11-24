@@ -4,6 +4,9 @@ package IreulTools.collections;
  * Created by tech0039 on 2016/10/19.
  */
 public interface IWrapper {
+
+    public IWrapper reset(Object value);
+
     public String toString();
     public String toString(String defaultVal);
 

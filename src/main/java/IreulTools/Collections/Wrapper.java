@@ -5,7 +5,7 @@ package IreulTools.collections;
  */
 public class Wrapper implements IWrapper{
 
-    private final Object value;
+    private Object value;
 
     private Wrapper(Object obj){
         this.value = obj;
@@ -19,10 +19,18 @@ public class Wrapper implements IWrapper{
         return new Wrapper(null);
     }
 
+    @Override
+    public IWrapper reset(Object value){
+        this.value = value;
+        return this;
+    }
+
+    @Override
     public String toString() {
         return toString("");
     }
 
+    @Override
     public String toString(String defaultVal) {
         if(this.value==null)
             return defaultVal;
@@ -30,37 +38,45 @@ public class Wrapper implements IWrapper{
             return this.value.toString();
     }
 
+    @Override
     public int toInt() throws NullPointerException,NumberFormatException{
         return Integer.parseInt(value.toString());
     }
 
+    @Override
     public int toInt(int defaultVal) {
         try {return toInt();}
         catch (Exception e){return defaultVal;}
     }
 
+    @Override
     public float toFloat() throws NullPointerException,NumberFormatException{
         return Float.parseFloat(value.toString());
     }
 
+    @Override
     public float toFloat(float defaultVal) {
         try {return toFloat();}
         catch (Exception e){return defaultVal;}
     }
 
+    @Override
     public long toLong() throws NullPointerException,NumberFormatException{
         return Long.parseLong(value.toString());
     }
 
+    @Override
     public long toLong(long defaultVal) {
         try {return toLong();}
         catch (Exception e){return defaultVal;}
     }
 
+    @Override
     public double toDouble() throws NullPointerException,NumberFormatException{
         return Double.parseDouble(value.toString());
     }
 
+    @Override
     public double toDouble(double defaultVal) {
         try {return toDouble();}
         catch (Exception e){return defaultVal;}
@@ -77,14 +93,17 @@ public class Wrapper implements IWrapper{
         catch (Exception e){return defaultVal;}
     }
 
+    @Override
     public Object value(){
         return this.value;
     }
 
+    @Override
     public boolean isNull() {
         return value == null;
     }
 
+    @Override
     public boolean isEmptyOrNull() {
         if(value==null)
             return true;
