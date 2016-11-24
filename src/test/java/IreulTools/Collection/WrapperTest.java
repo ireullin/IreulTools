@@ -20,59 +20,59 @@ public class WrapperTest extends TestCase {
 
         IWrapper sample1 = Wrapper.ofNull();
         LOG.info("{}", sample1.toFloat(0.3f));
-        Assert.assertEquals(sample1.isNull(), true);
-        Assert.assertEquals(sample1.isEmptyOrNull(), true);
-        Assert.assertEquals(sample1.toString("xxx"), "xxx");
-        Assert.assertEquals(sample1.toString(), "");
-        Assert.assertEquals(sample1.toInt(5), 5);
-        Assert.assertEquals(sample1.toLong(5), 5l);
+        assertEquals(sample1.isNull(), true);
+        assertEquals(sample1.isEmptyOrNull(), true);
+        assertEquals(sample1.toString("xxx"), "xxx");
+        assertEquals(sample1.toString(), "");
+        assertEquals(sample1.toInt(5), 5);
+        assertEquals(sample1.toLong(5), 5l);
 
         try{
             sample1.toInt();
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
         catch (NullPointerException  e){
             LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
 
         try{
             sample1.toLong();
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
         catch (NullPointerException  e){
             LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
 
         try{
             sample1.toFloat();
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
         catch (NullPointerException  e){
             LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
 
         try{
             sample1.toDouble();
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
         catch (NullPointerException  e){
             LOG.info("Success, I caught the exception");
         }
         catch (Exception  e){
             LOG.error("test failed", e);
-            Assert.assertEquals(true,false);
+            assertEquals(true,false);
         }
 
     }
@@ -82,9 +82,9 @@ public class WrapperTest extends TestCase {
     public void testExample2() {
 
         IWrapper sample2 = Wrapper.of(2.331);
-        Assert.assertEquals(sample2.toLong(3), 3);
-        Assert.assertEquals(sample2.toInt(2), 2);
-        Assert.assertEquals(sample2.toString(), "2.331");
+        assertEquals(sample2.toLong(3), 3);
+        assertEquals(sample2.toInt(2), 2);
+        assertEquals(sample2.toString(), "2.331");
 
         try{
             sample2.toInt();
@@ -98,10 +98,20 @@ public class WrapperTest extends TestCase {
 
         double epsilon = 1e9;
         float fDiff = sample2.toFloat() - 2.311f;
-        Assert.assertEquals(fDiff < epsilon, true );
+        assertEquals(fDiff < epsilon, true );
 
         double dDiff = sample2.toDouble() - 2.311d;
-        Assert.assertEquals(dDiff < epsilon, true );
+        assertEquals(dDiff < epsilon, true );
+    }
+
+
+    @Test
+    public void testExample3() {
+        IWrapper sample3 = Wrapper.ofNull();
+        assertEquals(sample3.isNull(), true);
+
+        sample3.reset("reset value");
+        assertEquals(sample3.toString(), "reset value");
     }
 
 }

@@ -13,6 +13,8 @@ import java.util.Set;
 public interface ISimpleMap{
     public ISimpleMap zip(Object[] keys, Object[] vals) throws Exception;
     public ISimpleMap zip(Object[] keys, Object[] vals, Object defaultVal);
+
+    public ISimpleMap mergeAndStayOld(Map<? extends String, ? extends Object> m);
     public ISimpleMap mergeAndStayNew(Map<? extends String, ? extends Object> m);
     public ISimpleMap put(String key, Object value);
     public ISimpleMap remove(Object key);
