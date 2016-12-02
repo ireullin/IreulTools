@@ -14,6 +14,16 @@ public class DatetimeTest extends TestCase {
 
 
     @Test
+    public void testExample1() {
+
+        for(int i=1; i<400; i++) {
+            IDatetime var = ImmutableDatetime.now().addOrSubHour(-i);
+            LOG.info(var.toString());
+        }
+
+    }
+
+    @Test
     public void testZeroDay() {
         try {
             IDatetime dt1 = ImmutableDatetime.zeroDay();

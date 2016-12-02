@@ -186,23 +186,31 @@ public class ImmutableDatetime implements IDatetime{
     }
 
     @Override
-    public IDatetime addOrSubDay(double v) {
-        return addOrSubHour(v*24);
+    public IDatetime addOrSubDay(int v) {
+        ImmutableDatetime dt = new ImmutableDatetime(this.stamp(), getTimeZone());
+        dt.calendar.add(Calendar.DATE, v);
+        return dt;
     }
 
     @Override
-    public IDatetime addOrSubHour(double v) {
-        return addOrSubMin(v*60);
+    public IDatetime addOrSubHour(int v) {
+        ImmutableDatetime dt = new ImmutableDatetime(this.stamp(), getTimeZone());
+        dt.calendar.add(Calendar.HOUR, v);
+        return dt;
     }
 
     @Override
-    public IDatetime addOrSubMin(double v) {
-        return addOrSubSec(v*60);
+    public IDatetime addOrSubMin(int v) {
+        ImmutableDatetime dt = new ImmutableDatetime(this.stamp(), getTimeZone());
+        dt.calendar.add(Calendar.MINUTE, v);
+        return dt;
     }
 
     @Override
-    public IDatetime addOrSubSec(double v) {
-        return addOrSubMillis(Math.round(v*1000));
+    public IDatetime addOrSubSec(int v) {
+        ImmutableDatetime dt = new ImmutableDatetime(this.stamp(), getTimeZone());
+        dt.calendar.add(Calendar.SECOND, v);
+        return dt;
     }
 
     @Override
