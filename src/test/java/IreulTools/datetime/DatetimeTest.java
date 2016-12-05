@@ -14,11 +14,53 @@ public class DatetimeTest extends TestCase {
 
 
     @Test
-    public void testExample1() {
+    public void testAddorSub() {
 
-        for(int i=1; i<400; i++) {
-            IDatetime var = ImmutableDatetime.now().addOrSubHour(-i);
-            LOG.info(var.toString());
+        try {
+            IDatetime pre = new ImmutableDatetime(2016, 5, 4, 23, 30, 59, 0);
+            IDatetime cur = pre.addOrSubDay(90);
+            LOG.info(cur.toString());
+            assertEquals("2016-08-02 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
+        }
+
+        try {
+            IDatetime pre = new ImmutableDatetime(2016, 5, 4, 23, 30, 59, 0);
+            IDatetime cur = pre.addOrSubMillis(48*60*60*1000);
+            LOG.info(cur.toString());
+            assertEquals("2016-05-06 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
+        }
+
+
+        // 閏年
+        try {
+            IDatetime pre = new ImmutableDatetime(2016, 2, 27, 23, 30, 59, 0);
+            IDatetime cur = pre.addOrSubDay(2);
+            LOG.info(cur.toString());
+            assertEquals("2016-02-29 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
+        }
+
+        // 沒閏年
+        try {
+            IDatetime pre = new ImmutableDatetime(2015, 2, 27, 23, 30, 59, 0);
+            IDatetime cur = pre.addOrSubDay(2);
+            LOG.info(cur.toString());
+            assertEquals("2015-03-01 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
+        }
+        catch (Exception e){
+            LOG.error("error", e);
+            assertEquals(false,true);
         }
 
     }
