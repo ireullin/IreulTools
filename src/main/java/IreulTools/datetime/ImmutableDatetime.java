@@ -260,6 +260,11 @@ public class ImmutableDatetime implements IDatetime{
 
     @Override
     public IDuration during(IReadOnlyDatetime dt) {
+        return to(dt);
+    }
+
+    @Override
+    public IDuration to(IReadOnlyDatetime dt) {
         return new Duration(dt.stamp()-this.stamp());
     }
 

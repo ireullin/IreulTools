@@ -23,6 +23,9 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime addOrSubSec(int v);
     public IDatetime addOrSubMillis(long v);
 
+    /*
+    It's the only method which changes inner value.
+     */
     public IDatetime reset(IReadOnlyDatetime dt);
 
     public IDatetime clone();
@@ -33,5 +36,10 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime toLocalTime();
     public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
 
+    /**
+     * @deprecated use {@link #to()} instead.
+     */
+    @Deprecated
     public IDuration during(IReadOnlyDatetime dt);
+    public IDuration to(IReadOnlyDatetime dt);
 }

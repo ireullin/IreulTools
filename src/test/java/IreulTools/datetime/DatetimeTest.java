@@ -202,7 +202,8 @@ public class DatetimeTest extends TestCase {
                 .addOrSubSec(5)
                 .addOrSubMillis(600);
 
-        IDuration du = dtA.during(dtB);
+//        IDuration du = dtA.during(dtB);
+        IDuration du = dtA.to(dtB);
         LOG.info("A is {} ({}), B is {} ({})", dtA.toString(), dtA.stamp(), dtB.toString(), dtB.stamp());
         LOG.info("duration is {} ({})", du.toString(), du.stamp());
         LOG.info("total {} days", du.totalDay());
