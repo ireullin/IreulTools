@@ -38,7 +38,7 @@ public class Response implements IResponse{
     public String toString() {
         StringBuilder sb = new StringBuilder(100);
         sb.append("StatusCode: ").append(statusCode).append("\n");
-        sb.append("Message: ").append(message).append("\n");;
+        sb.append("Message: ").append(message).append("\n");
         sb.append("Body: ").append(body);
         return sb.toString();
     }
