@@ -203,16 +203,18 @@ public class DatetimeTest extends TestCase {
                 .addOrSubMillis(600);
 
 //        IDuration du = dtA.during(dtB);
-        IDuration du = dtA.to(dtB);
+        IDuration duTo = dtA.to(dtB);
+        IDuration duFrom = dtB.from(dtA);
         LOG.info("A is {} ({}), B is {} ({})", dtA.toString(), dtA.stamp(), dtB.toString(), dtB.stamp());
-        LOG.info("duration is {} ({})", du.toString(), du.stamp());
-        LOG.info("total {} days", du.totalDay());
-        LOG.info("total {} hours", du.totalHour());
-        LOG.info("total {} minutes", du.totalMin());
-        LOG.info("total {} seconds", du.totalSec());
-        LOG.info("total {} milliseconds", du.totalMillis());
+        LOG.info("duration is {} ({})", duTo.toString(), duTo.stamp());
+        LOG.info("total {} days", duTo.totalDay());
+        LOG.info("total {} hours", duTo.totalHour());
+        LOG.info("total {} minutes", duTo.totalMin());
+        LOG.info("total {} seconds", duTo.totalSec());
+        LOG.info("total {} milliseconds", duTo.totalMillis());
 
-        IDatetime dtC = dtA.addOrSubMillis(du.totalMillis());
+        IDatetime dtC = dtA.addOrSubMillis(duTo.totalMillis());
+        assertEquals( duTo.totalMillis(), duFrom.totalMillis() );
         assertEquals( dtC.stamp(), dtB.stamp() );
     }
 

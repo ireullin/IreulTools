@@ -269,6 +269,11 @@ public class ImmutableDatetime implements IDatetime{
     }
 
     @Override
+    public IDuration from(IReadOnlyDatetime dt) {
+        return new Duration(this.stamp()-dt.stamp());
+    }
+
+    @Override
     public IDatetime toTimeZone(TimeZone tz){
         return new ImmutableDatetime(stamp(), tz);
     }

@@ -42,4 +42,5 @@ public interface IDatetime extends IReadOnlyDatetime{
     @Deprecated
     public IDuration during(IReadOnlyDatetime dt);
     public IDuration to(IReadOnlyDatetime dt);
+    public IDuration from(IReadOnlyDatetime dt);
 }
