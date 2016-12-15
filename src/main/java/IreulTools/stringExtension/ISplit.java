@@ -2,6 +2,7 @@ package IreulTools.stringExtension;
 
 import IreulTools.collections.IWrapper;
 import IreulTools.functionalProgramming.IEachPair;
+import IreulTools.functionalProgramming.IEachPairUntilEnd;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  */
 public interface ISplit {
     public ISplit with(String s);
-    public void each(IEachPair<Integer,IWrapper> each);
+    public void each(IEachPair<Boolean,Integer,IWrapper> f);
+    public void eachUntilEnd(IEachPairUntilEnd<Integer,IWrapper> f);
     public List<String> toList();
 }

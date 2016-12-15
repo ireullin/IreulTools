@@ -2,6 +2,7 @@ package IreulTools.sql.connections;
 
 import IreulTools.collections.ISimpleMap;
 import IreulTools.functionalProgramming.IEachPair;
+import IreulTools.functionalProgramming.IEachPairUntilEnd;
 import IreulTools.sql.connections.Exceptions.InitialFailedException;
 import IreulTools.sql.statements.ISQLSyntax;
 import org.slf4j.Logger;
@@ -79,14 +80,14 @@ public class PostgreSqlConnection implements IConnection {
      * @throws SQLException
      */
     @Override
-    public IConnection query(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
+    public IConnection query(String cmd, IEachPair<Boolean,Integer,IRow> each) throws SQLException{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd);
         Row row = new Row(pst.executeQuery());
         int i=0;
         try {
             while (row.next()) {
-                if (!each.isContinue(i++,row))
+                if (!each.put(i++,row))
                     break;
             }
         }
@@ -101,6 +102,13 @@ public class PostgreSqlConnection implements IConnection {
         return this;
     }
 
+    @Override
+    public IConnection queryUntilEnd(String cmd, IEachPairUntilEnd<Integer, IRow> each) throws SQLException {
+        return query(cmd, (k,v) -> {
+            each.put(k,v);
+            return true;
+        });
+    }
 
     /**
      * Execute SQL syntax and return data with primary key.
@@ -110,7 +118,7 @@ public class PostgreSqlConnection implements IConnection {
      * @throws SQLException
      */
     @Override
-    public IConnection exec(String cmd, IEachPair<Integer,IRow> each) throws SQLException{
+    public IConnection exec(String cmd, IEachPair<Boolean,Integer,IRow> each) throws SQLException{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd,Statement.RETURN_GENERATED_KEYS);
         pst.executeUpdate();
@@ -119,7 +127,7 @@ public class PostgreSqlConnection implements IConnection {
         int i=0;
         try {
             while (row.next()) {
-                if (!each.isContinue(i++,row))
+                if (!each.put(i++,row))
                     break;
             }
         }
@@ -134,6 +142,13 @@ public class PostgreSqlConnection implements IConnection {
         return this;
     }
 
+    @Override
+    public IConnection execUntilEnd(String cmd, IEachPairUntilEnd<Integer, IRow> each) throws SQLException {
+        return exec(cmd, (k,v) -> {
+            each.put(k,v);
+            return true;
+        });
+    }
 
     /**
      * Execute mutiple SQL syntax, splited with ';' , and not return anything.
@@ -149,16 +164,6 @@ public class PostgreSqlConnection implements IConnection {
         pst.close();
 
         return this;
-    }
-
-    @Override
-    public IConnection query(ISQLSyntax sql, IEachPair<Integer, IRow> each) throws SQLException {
-        return query(sql.toString(), each);
-    }
-
-    @Override
-    public IConnection exec(ISQLSyntax sql, IEachPair<Integer, IRow> each) throws SQLException {
-        return exec(sql.toString(), each);
     }
 
     @Override

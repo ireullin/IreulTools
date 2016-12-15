@@ -3,6 +3,7 @@ package IreulTools.stringExtension;
 import IreulTools.collections.IWrapper;
 import IreulTools.collections.Wrapper;
 import IreulTools.functionalProgramming.IEachPair;
+import IreulTools.functionalProgramming.IEachPairUntilEnd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,16 +36,24 @@ public class Split implements ISplit {
     }
 
     @Override
-    public void each(IEachPair<Integer,IWrapper> each) {
+    public void each(IEachPair<Boolean,Integer,IWrapper> f) {
         int index = 0;
         StringTokenizer tk = new StringTokenizer(this.source, this.delims.toString());
         while (tk.hasMoreTokens()){
             String token = tk.nextToken();
-            if(!each.isContinue(index,Wrapper.of(token))){
+            if(!f.put(index,Wrapper.of(token))){
                 break;
             }
             index += 1;
         }
+    }
+
+    @Override
+    public void eachUntilEnd(IEachPairUntilEnd<Integer, IWrapper> f) {
+        each((i,w) -> {
+            f.put(i,w);
+            return true;
+        });
     }
 
     @Override

@@ -39,5 +39,11 @@ public class SplitTest extends TestCase {
             return i!=2;
         });
 
+
+        splitter.eachUntilEnd( (i,w) -> {
+            LOG.info(w.toString());
+            Assert.assertEquals(w.toString(), answer.get(i));
+        });
+
     }
 }

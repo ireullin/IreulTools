@@ -1,6 +1,7 @@
 package IreulTools.collections;
 
 import IreulTools.functionalProgramming.IEachPair;
+import IreulTools.functionalProgramming.IEachPairUntilEnd;
 import IreulTools.functionalProgramming.ITap;
 
 import java.util.Collection;
@@ -22,7 +23,8 @@ public interface ISimpleMap{
     public ISimpleMap clear();
 
     public ISimpleMap tap(ITap<String> debugMsg);
-    public ISimpleMap each(IEachPair<String, IWrapper> f);
+    public ISimpleMap each(IEachPair<Boolean,String,IWrapper> f);
+    public ISimpleMap eachUntilEnd(IEachPairUntilEnd<String,IWrapper> f);
 
     public int size();
     public boolean isEmpty();
