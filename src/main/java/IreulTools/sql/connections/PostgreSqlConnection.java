@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by tech0039 on 2016/11/1.
@@ -20,7 +24,7 @@ public class PostgreSqlConnection implements IConnection {
     private final Connection cn;
     private final ISimpleMap options;
 
-    public static IConnection create(ISimpleMap options) throws SQLException{
+    public static IConnection create(ISimpleMap options) throws Exception{
         return new PostgreSqlConnection(options);
     }
 
@@ -80,7 +84,7 @@ public class PostgreSqlConnection implements IConnection {
      * @throws SQLException
      */
     @Override
-    public IConnection query(String cmd, IEachPair<Boolean,Integer,IRow> each) throws SQLException{
+    public IConnection query(String cmd, IEachPair<Boolean,Integer,IRow> each) throws Exception{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd);
         Row row = new Row(pst.executeQuery());
@@ -91,7 +95,7 @@ public class PostgreSqlConnection implements IConnection {
                     break;
             }
         }
-        catch (SQLException e){
+        catch (Exception e){
             throw e;
         }
         finally {
@@ -103,11 +107,21 @@ public class PostgreSqlConnection implements IConnection {
     }
 
     @Override
-    public IConnection queryUntilEnd(String cmd, IEachPairUntilEnd<Integer, IRow> each) throws SQLException {
-        return query(cmd, (k,v) -> {
-            each.put(k,v);
+    public List<Map<String,String>> queryToList(String cmd) throws Exception {
+        List<Map<String,String>> buffs = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
+        query(cmd, (i,row) -> {
+            if(i==0){
+                columns.addAll(row.getColumnNames());
+            }
+            Map<String,String> buff = new TreeMap<>();
+            for(String column : columns){
+                buff.put(column, row.column(column).toString());
+            }
+            buffs.add(buff);
             return true;
         });
+        return buffs;
     }
 
     /**
@@ -118,7 +132,7 @@ public class PostgreSqlConnection implements IConnection {
      * @throws SQLException
      */
     @Override
-    public IConnection exec(String cmd, IEachPair<Boolean,Integer,IRow> each) throws SQLException{
+    public IConnection exec(String cmd, IEachPair<Boolean,Integer,IRow> each) throws Exception{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd,Statement.RETURN_GENERATED_KEYS);
         pst.executeUpdate();
@@ -131,7 +145,7 @@ public class PostgreSqlConnection implements IConnection {
                     break;
             }
         }
-        catch (SQLException e){
+        catch (Exception e){
             throw e;
         }
         finally {
@@ -143,11 +157,21 @@ public class PostgreSqlConnection implements IConnection {
     }
 
     @Override
-    public IConnection execUntilEnd(String cmd, IEachPairUntilEnd<Integer, IRow> each) throws SQLException {
-        return exec(cmd, (k,v) -> {
-            each.put(k,v);
+    public List<Map<String,String>> execToList(String cmd) throws Exception{
+        List<Map<String,String>> buffs = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
+        exec(cmd, (i,row) -> {
+            if(i==0){
+                columns.addAll(row.getColumnNames());
+            }
+            Map<String,String> buff = new TreeMap<>();
+            for(String column : columns){
+                buff.put(column, row.column(column).toString());
+            }
+            buffs.add(buff);
             return true;
         });
+        return buffs;
     }
 
     /**
@@ -157,7 +181,7 @@ public class PostgreSqlConnection implements IConnection {
      * @throws SQLException
      */
     @Override
-    public IConnection execMutiCmd(String cmd) throws SQLException{
+    public IConnection execMutiCmd(String cmd) throws Exception{
 
         PreparedStatement pst = this.cn.prepareStatement(cmd);
         int rc = pst.executeUpdate();
