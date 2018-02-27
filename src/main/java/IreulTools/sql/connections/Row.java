@@ -8,11 +8,13 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by tech0039 on 2016/11/1.
  */
-public class Row implements IRow {
+public class Row implements IRow, AutoCloseable {
 
     private static final Logger LOG = LoggerFactory.getLogger(Row.class);
 
@@ -29,6 +31,7 @@ public class Row implements IRow {
         return this.rs.next();
     }
 
+    @Override
     public void close() throws SQLException {
         this.rs.close();
     }
@@ -78,5 +81,23 @@ public class Row implements IRow {
             LOG.warn("getColumnNames failed",e);
         }
         return columns;
+    }
+
+    @Override
+    public Map<String, String> toMap() {
+        Map<String,String> rc = new TreeMap<>();
+        for(String colName : getColumnNames()){
+            rc.put(colName, column(colName).toString() );
+        }
+        return rc;
+    }
+
+    @Override
+    public List<String> toList() {
+        List<String> rc = new ArrayList<>(10);
+        for(int i=0; i<size(); i++){
+            rc.add(index(i).toString());
+        }
+        return rc;
     }
 }
