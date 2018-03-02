@@ -23,8 +23,8 @@ public interface ISimpleMap{
     public ISimpleMap clear();
 
     public ISimpleMap tap(ITap<String> debugMsg);
-    public ISimpleMap each(IEachPair<Boolean,String,IWrapper> f);
-    public ISimpleMap eachUntilEnd(IEachPairUntilEnd<String,IWrapper> f);
+    public ISimpleMap each(IEachPair<Boolean,String,IWrapper> f) throws Exception;
+    public ISimpleMap eachUntilEnd(IEachPairUntilEnd<String,IWrapper> f) throws Exception;
 
     public int size();
     public boolean isEmpty();

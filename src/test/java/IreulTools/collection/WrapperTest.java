@@ -1,12 +1,15 @@
 package IreulTools.collection;
 
 import IreulTools.collections.IWrapper;
+import IreulTools.collections.ImmutableWrapper;
 import IreulTools.collections.Wrapper;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 /**
  * Created by tech0039 on 2016/10/19.
@@ -77,7 +80,6 @@ public class WrapperTest extends TestCase {
 
     }
 
-
     @Test
     public void testExample2() {
 
@@ -91,7 +93,7 @@ public class WrapperTest extends TestCase {
             assertEquals(true,false);
         }
         catch (Exception e){
-            LOG.info(e.getMessage(),e);
+//            LOG.info(e.getMessage(),e);
             assertEquals(true,true);
         }
 
@@ -104,14 +106,25 @@ public class WrapperTest extends TestCase {
         assertEquals(dDiff < epsilon, true );
     }
 
+    @Test
+    public void testExample3() throws Exception{
+            IWrapper sample3 = Wrapper.ofNull();
+            assertEquals(sample3.isNull(), true);
+
+            sample3.reset("reset value");
+            assertEquals(sample3.toString(), "reset value");
+    }
 
     @Test
-    public void testExample3() {
-        IWrapper sample3 = Wrapper.ofNull();
-        assertEquals(sample3.isNull(), true);
-
-        sample3.reset("reset value");
-        assertEquals(sample3.toString(), "reset value");
+    public void testExample4() throws Exception{
+        try {
+            IWrapper sample4 = ImmutableWrapper.of(3);
+            assertEquals(sample4.toString(), "3");
+            sample4.reset("reset value");
+        }
+        catch (Exception e){
+            assertEquals(e.getMessage(), "This is immutable");
+        }
     }
 
 }

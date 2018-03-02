@@ -36,7 +36,7 @@ public class Split implements ISplit {
     }
 
     @Override
-    public void each(IEachPair<Boolean,Integer,IWrapper> f) {
+    public void each(IEachPair<Boolean,Integer,IWrapper> f) throws Exception{
         int index = 0;
         StringTokenizer tk = new StringTokenizer(this.source, this.delims.toString());
         while (tk.hasMoreTokens()){
@@ -49,7 +49,7 @@ public class Split implements ISplit {
     }
 
     @Override
-    public void eachUntilEnd(IEachPairUntilEnd<Integer, IWrapper> f) {
+    public void eachUntilEnd(IEachPairUntilEnd<Integer, IWrapper> f) throws Exception{
         each((i,w) -> {
             f.put(i,w);
             return true;
@@ -57,7 +57,7 @@ public class Split implements ISplit {
     }
 
     @Override
-    public List<String> toList(){
+    public List<String> toList() throws Exception{
         List<String> arr = new ArrayList<String>(20);
         each((i,w) -> {
             arr.add(w.toString());

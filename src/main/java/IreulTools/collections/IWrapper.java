@@ -5,7 +5,7 @@ package IreulTools.collections;
  */
 public interface IWrapper {
 
-    public IWrapper reset(Object value);
+    public IWrapper reset(Object value) throws Exception;
 
     public String toString();
     public String toString(String defaultVal);

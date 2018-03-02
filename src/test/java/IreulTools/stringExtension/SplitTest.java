@@ -18,7 +18,7 @@ public class SplitTest extends TestCase {
     private static final Logger LOG = LoggerFactory.getLogger(SplitTest.class);
 
     @Test
-    public void testMain() {
+    public void testMain() throws Exception{
 
         ISplit splitter = Split.from("2016-03-18T9:28:13Z").with("-T:Z");
         List<String> answer = new ArrayList<>();

@@ -7,7 +7,7 @@ public class Wrapper implements IWrapper{
 
     private Object value;
 
-    private Wrapper(Object obj){
+    protected Wrapper(Object obj){
         this.value = obj;
     }
 
@@ -20,7 +20,7 @@ public class Wrapper implements IWrapper{
     }
 
     @Override
-    public IWrapper reset(Object value){
+    public IWrapper reset(Object value) throws Exception{
         this.value = value;
         return this;
     }
