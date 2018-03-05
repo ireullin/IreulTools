@@ -100,7 +100,7 @@ public class ColumnCell implements ICell {
 
     @Override
     public IDatetime toDatetime() throws SQLException{
-        return new ImmutableDatetime( rs.getTimestamp(column) );
+        return ImmutableDatetime.of( rs.getTimestamp(column) );
     }
 
     @Override

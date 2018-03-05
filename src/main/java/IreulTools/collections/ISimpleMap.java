@@ -22,7 +22,7 @@ public interface ISimpleMap{
     public ISimpleMap putAll(Map<? extends String, ? extends Object> m);
     public ISimpleMap clear();
 
-    public ISimpleMap tap(ITap<String> debugMsg);
+    public ISimpleMap tap(ITap<String> debugMsg) throws Exception;
     public ISimpleMap each(IEachPair<Boolean,String,IWrapper> f) throws Exception;
     public ISimpleMap eachUntilEnd(IEachPairUntilEnd<String,IWrapper> f) throws Exception;
 

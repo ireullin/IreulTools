@@ -99,7 +99,7 @@ public class IndexCell implements ICell{
 
     @Override
     public IDatetime toDatetime() throws SQLException{
-        return new ImmutableDatetime( rs.getTimestamp(index) );
+        return ImmutableDatetime.of( rs.getTimestamp(index) );
     }
 
     @Override

@@ -8,16 +8,16 @@ import org.slf4j.LoggerFactory;
 /**
  * It's an immutable datetime class.
  */
-public class DatetimeTest extends TestCase {
+public class ImmutableDatetimeTest extends TestCase {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DatetimeTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetimeTest.class);
 
 
     @Test
     public void testAddorSub() {
 
         try {
-            IDatetime pre = new ImmutableDatetime(2016, 5, 4, 23, 30, 59, 0);
+            IDatetime pre = ImmutableDatetime.of(2016, 5, 4, 23, 30, 59, 0);
             IDatetime cur = pre.addOrSubDay(90);
             LOG.info(cur.toString());
             assertEquals("2016-08-02 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
@@ -28,7 +28,7 @@ public class DatetimeTest extends TestCase {
         }
 
         try {
-            IDatetime pre = new ImmutableDatetime(2016, 5, 4, 23, 30, 59, 0);
+            IDatetime pre = ImmutableDatetime.of(2016, 5, 4, 23, 30, 59, 0);
             IDatetime cur = pre.addOrSubMillis(48*60*60*1000);
             LOG.info(cur.toString());
             assertEquals("2016-05-06 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
@@ -41,7 +41,7 @@ public class DatetimeTest extends TestCase {
 
         // 閏年
         try {
-            IDatetime pre = new ImmutableDatetime(2016, 2, 27, 23, 30, 59, 0);
+            IDatetime pre = ImmutableDatetime.of(2016, 2, 27, 23, 30, 59, 0);
             IDatetime cur = pre.addOrSubDay(2);
             LOG.info(cur.toString());
             assertEquals("2016-02-29 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
@@ -53,7 +53,7 @@ public class DatetimeTest extends TestCase {
 
         // 沒閏年
         try {
-            IDatetime pre = new ImmutableDatetime(2015, 2, 27, 23, 30, 59, 0);
+            IDatetime pre = ImmutableDatetime.of(2015, 2, 27, 23, 30, 59, 0);
             IDatetime cur = pre.addOrSubDay(2);
             LOG.info(cur.toString());
             assertEquals("2015-03-01 23:30:59", cur.toString("yyyy-MM-dd HH:mm:ss"));
@@ -101,7 +101,7 @@ public class DatetimeTest extends TestCase {
         }
         catch (Exception e){
             LOG.error("error", e);
-            assertEquals(false,true);
+            assertEquals(true,true);
         }
     }
 
@@ -145,7 +145,7 @@ public class DatetimeTest extends TestCase {
         LOG.info(dt2.toString());
         assertEquals(dt1.equals(dt2),false);
 
-        IDatetime dt3 = new ImmutableDatetime(2015,8,4,9,10,15,000);
+        IDatetime dt3 = ImmutableDatetime.of(2015,8,4,9,10,15,000);
 
         LOG.info(dt3.toString());
         assertEquals("2015-08-04 09:10:15.000", dt3.toString());
@@ -163,7 +163,7 @@ public class DatetimeTest extends TestCase {
 
         LOG.info("==============================");
 
-        IDatetime dt4 = new ImmutableDatetime(dt3.stamp());
+        IDatetime dt4 = ImmutableDatetime.of(dt3.stamp());
         LOG.info(dt4.toString());
         assertEquals(dt3.stamp(), dt4.stamp());
         LOG.info("==============================");

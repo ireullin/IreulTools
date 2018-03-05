@@ -38,51 +38,82 @@ public class ImmutableDatetime implements IDatetime{
         return dt.toUTC();
     }
 
-    public ImmutableDatetime(){
+    private ImmutableDatetime(){
     }
 
-    public ImmutableDatetime(TimeZone tz){
+    public static IDatetime of(TimeZone tz){
+        return new ImmutableDatetime(tz);
+    }
+
+    private ImmutableDatetime(TimeZone tz){
         calendar.setTimeZone(tz);
     }
 
-    public ImmutableDatetime(Date dt){
+    public static IDatetime of(Date dt){
+        return new ImmutableDatetime(dt);
+    }
+
+    private ImmutableDatetime(Date dt){
         calendar.setTime(dt);
     }
 
-    public ImmutableDatetime(Date dt, TimeZone tz){
+    public static IDatetime of(Date dt, TimeZone tz){
+        return new ImmutableDatetime(dt, tz);
+    }
+
+    private ImmutableDatetime(Date dt, TimeZone tz){
         calendar.setTime(dt);
         calendar.setTimeZone(tz);
     }
 
-    public ImmutableDatetime(IReadOnlyDatetime datetime){
+    public static IDatetime of(IReadOnlyDatetime datetime){
+        return new ImmutableDatetime(datetime);
+    }
+
+    private ImmutableDatetime(IReadOnlyDatetime datetime){
         calendar.setTimeInMillis(datetime.stamp());
     }
 
-    public ImmutableDatetime(long stamp){
+    public static IDatetime of(long stamp){
+        return new ImmutableDatetime(stamp);
+    }
+
+    private ImmutableDatetime(long stamp){
         calendar.setTimeInMillis(stamp);
     }
 
-    public ImmutableDatetime(long stamp, TimeZone tz){
+    public static IDatetime of(long stamp, TimeZone tz){
+        return new ImmutableDatetime(stamp, tz);
+    }
+
+    private ImmutableDatetime(long stamp, TimeZone tz){
         calendar.setTimeInMillis(stamp);
         calendar.setTimeZone(tz);
     }
 
-
-    public ImmutableDatetime(int year, int month, int day){
-        this(year,month,day,0,0,0,0);
+    public static IDatetime of(int year, int month, int day){
+        return new ImmutableDatetime(year,month,day,0,0,0,0);
     }
 
-    public ImmutableDatetime(int year, int month, int day, TimeZone tz){
-        this(year,month,day,0,0,0,0,tz);
+    public static IDatetime of(int year, int month, int day, TimeZone tz){
+        return new ImmutableDatetime(year,month,day,0,0,0,0,tz);
     }
 
-    public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis){
+    public static IDatetime of(int year, int month, int day, int hour, int min, int sec, int millis) {
+        return new ImmutableDatetime(year, month, day, hour, min, sec, millis);
+    }
+
+    public static IDatetime of(int year, int month, int day, int hour, int min, int sec, int millis, TimeZone tz){
+        return new ImmutableDatetime(year, month, day, hour, min, sec, millis, tz);
+    }
+
+    private ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis){
         calendar.set( year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
     }
 
-    public ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis, TimeZone tz){
-        calendar.set( year, month-1, day, hour, min, sec);
+    private ImmutableDatetime(int year, int month, int day, int hour, int min, int sec, int millis, TimeZone tz){
+        calendar.set(year, month-1, day, hour, min, sec);
         calendar.set(Calendar.MILLISECOND, millis);
         calendar.setTimeZone(tz);
     }
