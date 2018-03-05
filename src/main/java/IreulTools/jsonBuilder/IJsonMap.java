@@ -14,6 +14,6 @@ public interface IJsonMap {
     public String toString();
     public ObjectNode toJsonNode();
     public Map<String,Object> toMap();
-    public IJsonMap tap(ITap<String> debugMsg);
+    public IJsonMap tap(ITap<String> debugMsg) throws Exception;
     public int size();
 }

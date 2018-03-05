@@ -26,7 +26,7 @@ public interface IDatetime extends IReadOnlyDatetime{
     /*
     It's the only method which changes inner value.
      */
-    public IDatetime reset(IReadOnlyDatetime dt);
+    public IDatetime reset(IReadOnlyDatetime dt) throws Exception;
 
     public IDatetime clone();
     public IDatetime toBeginOfDay();

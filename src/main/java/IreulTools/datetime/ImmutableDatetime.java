@@ -19,7 +19,7 @@ public class ImmutableDatetime implements IDatetime{
 
     private static final Logger LOG = LoggerFactory.getLogger(ImmutableDatetime.class);
 
-    public final Calendar calendar = new GregorianCalendar();
+    private final Calendar calendar = new GregorianCalendar();
 
     public static IDatetime readFrom(String dtstr, String format) throws ParseException{
         SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -164,10 +164,11 @@ public class ImmutableDatetime implements IDatetime{
     }
 
     @Override
-    public IDatetime reset(IReadOnlyDatetime dt) {
-        calendar.setTimeInMillis(dt.stamp());
-        calendar.setTimeZone(dt.getTimeZone());
-        return this;
+    public IDatetime reset(IReadOnlyDatetime dt)  throws Exception{
+//        calendar.setTimeInMillis(dt.stamp());
+//        calendar.setTimeZone(dt.getTimeZone());
+//        return this;
+        throw new Exception("This is immutable");
     }
 
     @Override

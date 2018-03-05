@@ -15,6 +15,6 @@ public interface IJsonList {
     public String toString();
     public ObjectNode toJsonNode();
     public List<Object> toList();
-    public IJsonList tap(ITap<String> debugMsg);
+    public IJsonList tap(ITap<String> debugMsg) throws Exception;
     public int size();
 }

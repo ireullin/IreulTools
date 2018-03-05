@@ -21,7 +21,7 @@ public class JsonBuilderTest extends TestCase{
 
 
 
-    public String genBuilder(){
+    public String genBuilder() throws Exception{
         IJsonMap node = JsonMap.create()
                 .put("key1", 1)
                 .put("key2", "2")

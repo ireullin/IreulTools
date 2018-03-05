@@ -154,7 +154,7 @@ public class Select implements ISelect {
     }
 
     @Override
-    public ISelect tap(ITap<String> debugMsg) {
+    public ISelect tap(ITap<String> debugMsg) throws Exception{
         debugMsg.put(toString());
         return this;
     }

@@ -26,5 +26,5 @@ public interface ISelect extends ISQLSyntax{
     public ISelect groupWithCount(List<String> syntax, String having);
     public ISelect limit(int i);
     public ISelect offset(int i);
-    public ISelect tap(ITap<String> debugMsg);
+    public ISelect tap(ITap<String> debugMsg) throws Exception;
 }

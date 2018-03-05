@@ -69,7 +69,7 @@ public class JsonMap implements IJsonMap {
     }
 
     @Override
-    public IJsonMap tap(ITap<String> debugMsg) {
+    public IJsonMap tap(ITap<String> debugMsg) throws Exception{
         debugMsg.put(toString());
         return this;
     }

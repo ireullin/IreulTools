@@ -82,7 +82,7 @@ public class JsonList implements IJsonList{
     }
 
     @Override
-    public IJsonList tap(ITap<String> debugMsg) {
+    public IJsonList tap(ITap<String> debugMsg) throws Exception{
         debugMsg.put(toString());
         return this;
     }

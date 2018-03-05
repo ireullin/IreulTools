@@ -83,7 +83,7 @@ public class SelectTest  extends TestCase {
      * 測試 tap, in, offset & limit
      */
     @Test
-    public void testExample4() {
+    public void testExample4() throws Exception{
 
         List<String> c2 = new ArrayList<>();
         c2.add("紙尿褲/濕紙巾");
