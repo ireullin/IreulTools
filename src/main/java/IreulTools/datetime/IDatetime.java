@@ -34,7 +34,7 @@ public interface IDatetime extends IReadOnlyDatetime{
     public IDatetime toTimeZone(TimeZone tz);
     public IDatetime toUTC();
     public IDatetime toLocalTime();
-    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg);
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) throws Exception;
 
     /**
      * @deprecated use {@link #to()} instead.

@@ -253,7 +253,7 @@ public class ImmutableDatetime implements IDatetime{
     }
 
     @Override
-    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) {
+    public IDatetime tap(ITap<IReadOnlyDatetime> debugMsg) throws Exception{
         debugMsg.put(this);
         return this;
     }
