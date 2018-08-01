@@ -35,7 +35,7 @@ public class JsonList implements IJsonList{
         return new JsonList(list);
     }
 
-    public IJsonList merge(List<Object> val){
+    public IJsonList merge(List<?> val){
         this.list.addAll(val);
         return this;
     }

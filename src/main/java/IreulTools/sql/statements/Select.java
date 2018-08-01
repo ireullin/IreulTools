@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+
 
 /**
  * Created by ireullin on 2016/11/1.
@@ -182,7 +184,7 @@ public class Select implements ISelect {
             where = "where "+wherePart.toString(doesIndent);
         }
 
-        List<String> raw = Arrays.asList(
+        List<String> raw = asList(
                 "select "+columns,
                 "from "+table,
                 where,
